@@ -1,0 +1,91 @@
+a article
+alumnus noun
+alumni noun ROOT alumnus
+an article
+be verb
+are verb ROOT be 
+was verb ROOT be 
+were verb ROOT be 
+arm noun
+atom noun
+ban verb
+ban noun
+begin verb
+began verb ROOT begin 
+beauty noun
+big adjective
+by preposition
+carry verb
+cat noun
+ceiling noun
+compute verb
+crisis noun
+crises noun ROOT crisis
+do verb
+dog noun
+dress noun
+dress verb
+eat verb
+fast adverb
+fish noun
+fish verb
+furry adjective
+go verb
+going verb ROOT go 
+goose noun
+geese noun ROOT goose
+hair noun
+happy adjective
+have verb
+has verb ROOT have 
+had verb ROOT have 
+hope verb
+hope noun
+house noun
+hurry verb
+hurry noun
+increase verb
+iron noun
+iron verb
+is verb ROOT be 
+joke verb
+joke noun
+large adjective
+walk verb
+wonder noun
+make verb
+man noun
+miss verb
+noise noun
+moss noun
+move verb
+of preposition
+on preposition
+ship noun
+ship verb
+shipping gerund
+sleep verb
+sleep noun
+slept verb ROOT sleep 
+slow adjective
+small adjective
+pare verb
+park noun
+park verb
+produce verb
+produce noun
+quick adjective
+reduce verb
+run verb
+run noun
+ran verb ROOT run 
+sit verb
+sat verb ROOT sit 
+store noun
+store verb
+the article
+to preposition
+toss verb
+travel verb
+view verb
+view noun

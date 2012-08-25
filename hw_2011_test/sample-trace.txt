@@ -1,0 +1,22 @@
+be be dictionary verb
+
+slept sleep dictionary verb
+
+utah utah default noun
+
+hairy hair morphology adjective
+
+anticeiling ceiling morphology adjective
+
+stores store morphology noun
+stores store morphology verb
+
+sleeped sleep morphology adjective
+sleeped sleep morphology verb
+
+sleepiest sleep morphology adjective
+
+reviews view morphology verb
+
+rereviewed view morphology adjective
+rereviewed view morphology verb
