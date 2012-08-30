@@ -101,7 +101,7 @@ class MorphologyTests
     morph = morphologicalAnalyzer("sleepiest", @dictModels, @ruleModels)
     #assert
     morph.each do |morphed|
-      #puts "#{morphed.originalWord} #{morphed.finalWord} #{morphed.foundMethod} #{morphed.type}"
+      puts "#{morphed.originalWord} #{morphed.finalWord} #{morphed.foundMethod} #{morphed.type}"
     end
     morph.any?{|t| t.finalWord == "sleep" && t.type == "adjective" && t.foundMethod == "morphology" && t.originalWord == "sleepiest" }
   end
@@ -114,7 +114,18 @@ class MorphologyTests
     morph.each do |morphed|
       puts "#{morphed.originalWord} #{morphed.finalWord} #{morphed.foundMethod} #{morphed.type}"
     end
-    morph.any?{|t| t.finalWord == "view" && t.type == "verb" && t.foundMethod == "morphology" && t.originalWord == "reviews" } && false
+    morph.any?{|t| t.finalWord == "view" && t.type == "verb" && t.foundMethod == "morphology" && t.originalWord == "reviews" }
+  end
+  
+  def reviewedTest
+    #arrange
+    #act
+    morph = morphologicalAnalyzer("rereviewed", @dictModels, @ruleModels)
+    #assert
+    morph.each do |morphed|
+      puts "#{morphed.originalWord} #{morphed.finalWord} #{morphed.foundMethod} #{morphed.type}"
+    end
+    morph.any?{|t| t.finalWord == "view" && t.type == "verb" && t.foundMethod == "morphology" && t.originalWord == "rereviewed" } && false
   end
 end
 
@@ -155,20 +166,24 @@ def recursivelyFind(originalWord, foundRules)
     
     foundRules = []
     keepWords = []
-
+    
+    #puts "morphedItems.length #{morphedItems.length}"
+    
     morphedItems.each do |word|
+      #puts "#{word.finalWord} - #{word.originalWord} - #{word.preType} #{word.type}"
       if dictModels.any?{|dict| dict.word == word.finalWord && dict.type == word.preType}
-        puts "#{word.finalWord} - #{word.originalWord} - #{word.preType} #{word.type}"
+        #puts "#{word.finalWord} - #{word.originalWord} - #{word.preType} #{word.type}"
         keepWords.push word
       end
     end
     if keepWords.length > 0
+      #puts "got here first round"
       #puts "keepWords.length is #{keepWords.length}"
       return keepWords
     else  
       morphedItems.each do |word|
         #also populate new foundRules
-        newRules = ruleModels.select{|t| t.match(word.finalWord)}
+        newRules = ruleModels.select{|t| t.match(word.finalWord, word.type)}
         if newRules.length > 0
           #puts "--------- #{newRules.length} --------------"
           newRules.each do |rule|
@@ -191,7 +206,7 @@ def morphologicalAnalyzer(word, dictModels, ruleModels)
     return dictItems
   else
     #puts "starting out with #{originalWord}"
-    foundRules = ruleModels.select{|t| t.match(originalWord)}
+    foundRules = ruleModels.select{|t| t.match(originalWord, nil)}
     if(foundRules.length > 0)
       t = recursivelyFind(originalWord, foundRules)
       t.each {|f| f.originalWord = word }
@@ -256,8 +271,10 @@ class RuleItemModel
     @posPost = $5
   end
   
-  def match(word)
-    return (word =~ @toBeReplaced) != nil
+  def match(word, posPost)
+    result = ((word =~ @toBeReplaced) != nil) && (posPost == nil || posPost == @posPre)
+    #puts "word: #{word}, #{word =~ @toBeReplaced}, posPre: #{posPost} -- compared with #{@toBeReplaced} #{@posPre}... result: #{result}, #{posPost} #{@posPre}"
+    return result
   end
   
   def applyRule(word)
