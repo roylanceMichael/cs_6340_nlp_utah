@@ -1,0 +1,75 @@
+NOTES:
+
+first written assignment due (I already did it!)
+
+* question about to
+to is an infinitive 
+
+(to introduce, the infinitive verb form)
+
+programming assignment is hardest, try to explain what is the easiest way to handle it
+
+top-down parsing - start from grammar
+bottom-up - start with words, then apply grammar rules right to left
+
+RTN (recursive transition network) ATN usually called (simpler version)
+
+add recursion to FSM infrastructure
+
+allowing an arc to hop over to another machine
+
+states and transitions, An RTN can have 5 types of arcs:
+
+CATEGORY: current word must belong to category
+WORD: current word must match a string, 
+PUSH: named RTN must be successfully traversed
+JUMP: can always be traversed, usually represented as an transition
+POP: can always be traversed...
+
+successful parse means popped out of highest level and consumed all
+
+
+S -> NP VP NP
+S -> NP VP "that" S
+
+VP -> verb
+VP -> verb adv
+
+NP -> art NP1
+NP1 -> adj NP1
+NP1 -> NP2
+NP2 -> noun
+NP2 -> noun NP2
+
+empty string = sloppy grammar most likely 
+
+S -> NP VP
+NP -> art NP1
+NP1 -> noun
+NP1 -> noun 
+NP1 -> noun
+
+VP -> verb
+VP -> verb NP
+VP -> adv VP
+VP -> V PP
+
+S -> NP -> VP -> P
+
+RTN - study a bit more...
+
+How do we use them to parse?
+
+the metal can was a dark blue.
+
+recursive descent...
+
+implement the stack ourself
+
+recognizer and generator - generate all possible parses
+
+a big table with all those columns...
+
+S 
+
+
