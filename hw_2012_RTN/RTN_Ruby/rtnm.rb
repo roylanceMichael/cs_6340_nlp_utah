@@ -4,23 +4,23 @@ class Rtnm
 	def self.factory(filePath)
 		rawFile = File.new(filePath)
 		content = rawFile.read
-		propertyRegex = /\s*MACHINE\s+([a-zA-Z0-9]+)\s+INIT\s+([a-zA-Z0-9]+)\s+FINAL\s+([a-zA-Z0-9]+)\s+BEGIN([A-Za-z0-9\s]*?)END\s*?/
-		result = content =~ propertyRegex
-
-		returnRtnm = Rtnm.new
-		returnRtnm.machine = $1
-		returnRtnm.init = $2
-		returnRtnm.final = $3
-		puts "1: #{$1}"
-		puts "2: #{$2}"
-		puts "3: #{$3}"
-		puts "4:#{$4}"
-		
-		#bIndex = content =~ /\s+BEGIN\s+/
-		#eIndex = content =~ /\s+END\s*/
-		#bOffset = bIndex + 5
-		#processRules = content.slice(bOffset, eIndex - bOffset)
-		#puts processRules
-		returnRtnm
+		propertyRegex = /MACHINE\s+([a-zA-Z0-9]+?)\s+INIT\s+([a-zA-Z0-9]+?)\s+FINAL\s+([a-zA-Z0-9\s]+?)\s+BEGIN([A-Za-z0-9\s]+?)END\s*/
+		match = propertyRegex.match(content)
+		machines = []
+		while(match != nil)
+			postMatch = match.post_match.strip
+			
+			#puts "match: #{match}"
+			#puts "post match: #{postMatch}"
+			
+			returnRtnm = Rtnm.new
+			returnRtnm.machine = match[1]
+			returnRtnm.init = match[2]
+			returnRtnm.final = match[3].strip.split(/\s/)
+			
+			machines.push returnRtnm
+			match = propertyRegex.match(postMatch)
+		end
+		machines
 	end
 end
