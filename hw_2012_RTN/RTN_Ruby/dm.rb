@@ -10,10 +10,10 @@ class Dm
 	def self.factory(fileName)
 		dictFile = File.new(fileName)
 		dictModels = []
-		while(line = dictFile.gets)
+		while line = dictFile.gets
 			tempDict = Dm.new
-			tempDict.setProperties(line)
-			dictModels.push(tempDict)
+			tempDict.setProperties line 
+			dictModels.push tempDict
 		end
 		dictModels
 	end
