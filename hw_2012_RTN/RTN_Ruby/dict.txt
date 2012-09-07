@@ -1,0 +1,16 @@
+fruit noun
+flies noun
+flies verb
+like verb 
+like prep
+bananas noun
+pears noun
+smelly adj
+john noun
+walks verb
+walks noun
+dog noun
+dog verb
+in prep
+the art
+trees noun
