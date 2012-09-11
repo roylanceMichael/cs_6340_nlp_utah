@@ -4,6 +4,20 @@ require 'rule.rb'
 require 'sm.rb'
 require 'set'
 
+def vs(sentence, dict, rtnm)
+	altpaths = []
+	chart = []
+	#expecting one head rtnm
+	sm = Sm.new
+	sm.sentence = sentence
+	
+	result = rtnm.first.as sm, dict, 0
+	
+	fr = result.select{|t| t.index == sm.words.length}
+	fr
+end
+
+
 def validateSentence(sentence, dict, rtnm)
 	#right now, the start machine will be rtnm[0]
 	
@@ -12,9 +26,17 @@ def validateSentence(sentence, dict, rtnm)
 	sm.index = 0
 	
 	puts "PROCESSING SENTENCE: #{sm.sentence}"
+	
 	result = rtnm.first.applySentence sm, dict
+	
+	result.each do |r|
+		puts "#{r.sm.printhistory}"
+	end
+	#result
 	result != nil && result.length > 0
 end
+
+
 
 if ARGV != nil && ARGV.length > 3
 	puts ARGV[0]
@@ -49,4 +71,16 @@ def setRuleTypes(dict, rtnm)
 			end
 		end
 	end
+end
+
+class RuleTuple
+	attr_accessor :rule, :index, :prev
+	
+	def printself
+		puts "#{rule.start} - #{rule.arcname} - #{rule.end} - #{index}"
+	end
+end
+
+class Chart
+	attr_accessor :cstate, :index, :rstate, :arc
 end

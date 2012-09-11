@@ -1,16 +1,43 @@
 class Rule
-	attr_accessor :start, :arcname, :end, :arctype, :arcref, :parentmachine, :sm
+	attr_accessor :start, :arcname, :end, :arctype, :arcref, :parentmachine
 	
-	def applyRule(dict)
-		puts "applyRule:(#{@sm.word}), #{@start} -> #{@arcname} -> #{@arctype} -> #{@end}"
+	def ar(sm, dict, index)
+		#get current word
+		if @arctype == "machine" && @arcref != nil
+			return @arcref.as sm, dict, index
+		elsif @arctype == "word"
+			current = sm.windex index
+			if dict.any?{|t| t.word == current && t.pos == @arcname}
+				rt = RuleTuple.new
+				rt.rule = self
+				rt.index = index + 1
+				return [rt]
+			end
+		end
+		return nil
+	end
+	
+	def copy
+		r = Rule.new
+		r.start = @start
+		r.arcname = @arcname
+		r.end = @end
+		r.arctype = @arctype
+		r.arcref = @arcref
+		r.parentmachine = @parentmachine
+		return r
+	end
+	
+	def applyRule(sm, dict)
+		#puts "applyRule:(#{@sm.word}), #{@start} -> #{@arcname} -> #{@arctype} -> #{@end}"
 		if @arctype == "word"
-			if dict.any? {|t| t.word == @sm.word && t.pos == @arcname}
-				puts "#{@start} - #{@arcname} (#{@sm.word}) -> #{@end}"
-				@sm.index = @sm.index + 1
-				return [self, @sm]
+			if dict.any? {|t| t.word == sm.word && t.pos == @arcname}
+				puts "#{@start} - #{@arcname} (#{sm.word}) -> #{@end}"
+				sm.record(self)
+				return [sm]
 			end
 		elsif @arctype == "machine"	&& @arcref != nil
-			result = @arcref.applySentence @sm, dict
+			result = @arcref.applySentence sm, dict
 			if result != nil && result.length > 0
 				puts "#{@start} - #{@arcname} -> #{@end}"
 				return result

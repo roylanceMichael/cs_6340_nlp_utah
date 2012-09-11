@@ -2,12 +2,62 @@ require './rule.rb'
 class Rtnm
 	attr_accessor :machinename, :init, :final, :rules
 	
+	#sm is used to access the sentence
+	#dict is a static dictionary
+	#chart is used to keep a history of what we've tried
+	#altpaths is used to keep track of alternate paths
+	def as(sm, dict, index)
+		#start at beginning
+		puts "processing #{@machinename} at #{sm.windex index}"
+		#get all start states for current machine
+		rulesToTry = []
+		@rules.select{|t| t.start == @init}.each do |r|
+			tr = RuleTuple.new
+			tr.rule = r
+			tr.index = index
+			rulesToTry.push tr
+		end
+		
+		success = []
+		
+		puts "found #{rulesToTry.length} rules to try"
+		
+		while rulesToTry.length > 0
+			cr = rulesToTry.delete_at 0
+			
+			result = cr.rule.ar sm, dict, cr.index
+			puts "(#{sm.windex cr.index})#{cr.rule.start} - #{cr.rule.arcname} - #{cr.rule.end} was #{result == nil ? 'failure' : result}"
+			
+			#number if the rule was successful
+			#what to return if multiple rules were successful?
+			if result != nil
+				
+				#this is potentially good to go
+				if final.any? {|t| t == cr.rule.end}
+					result.each do |r|
+						puts "pushing #{r.printself} because #{cr.rule.end} is an end state"
+						success.push r
+					end
+				end
+				@rules.select{|t| t.start == cr.rule.end}.each do |rule|
+					result.each do |r|
+						tr = RuleTuple.new
+						tr.rule = rule
+						tr.index = r.index
+						tr.prev = cr
+						rulesToTry.push tr
+					end
+				end
+			end
+		end
+		success
+	end
+	
 	def applySentence(sm, dict)
 		#we are assuming we're at the beginning now
 		#we're also assuming there's one path
 		
 		if sm.word == nil
-			puts "nil word!"
 			return nil
 		end
 		
@@ -22,30 +72,35 @@ class Rtnm
 				next
 			end
 			
-			puts "applySentence:(#{currentRule.sm.word})(#{currentRule.sm}) @ #{@machinename}, rule: #{currentRule.start} - #{currentRule.arcname} - #{currentRule.end}"
-			
 			#pretty sure I need to do more here...
-			result = currentRule.applyRule dict
+			result = currentRule.applyRule sm, dict
+			
 			if result != nil
 				if final.any? {|t| t == currentRule.end}
-					puts "(SUCCESSFUL RULE) (#{currentRule.sm}) #{currentRule.start} - #{currentRule.arcname} - #{currentRule.end} - index(#{currentRule.sm.index})"
-					currentRule.sm = currentRule.sm.copy
-					successfulRules.push currentRule
+					puts result.length
+					result.each {|sentenceModel| successfulRules.push sentenceModel}
 				end
 				#add more rules, if we can
-				moreRules = rules.select{|t| t.start == currentRule.end}
-				
-				moreRules.each do |t|
-					t.sm = currentRule.sm.copy
-					rulesToTry.push t
+				result.each do |sentenceModel|
+					moreRules = rules.select{|t| t.start == currentRule.end}
+					
+					moreRules.each do |rule|
+						newRule = rule.copy
+						newRule.sm = sm.copy
+						rulesToTry.push newRule
+					end
 				end
 			end
 		end
 		
 		puts "ended #{@machinename} with #{successfulRules.length} rules"
-		
-		successfulRules.each do |rule|
-			puts "#{rule.sm} #{rule.start} - #{rule.arcname} - #{rule.end} - #{rule.sm.sentence} - index(#{rule.sm.index})"
+		successfulRules.each do |anotherSm|
+			puts "       "
+			puts "-------"
+			puts anotherSm
+			anotherSm.printhistory
+			puts "-------"
+			puts "       "
 		end
 		
 		successfulRules
