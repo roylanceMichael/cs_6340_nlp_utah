@@ -4,17 +4,22 @@ class Rule
 	def ar(sm, dict, index)
 		#get current word
 		if @arctype == "machine" && @arcref != nil
-			return @arcref.as sm, dict, index
+			res = @arcref.as sm, dict, index
+			if res.length > 0
+				#puts "#{@start} - #{@arcname} (#{sm.windex index}) -> #{@end}"
+				return res
+			end
 		elsif @arctype == "word"
 			current = sm.windex index
 			if dict.any?{|t| t.word == current && t.pos == @arcname}
-				rt = RuleTuple.new
-				rt.rule = self
-				rt.index = index + 1
-				return [rt]
+				#puts "#{@start} - #{@arcname} (#{sm.windex index}) -> #{@end}"
+				#rt = RuleTuple.new
+				#rt.rule = self
+				#rt.index = index
+				return true
 			end
 		end
-		return nil
+		return []
 	end
 	
 	def copy
