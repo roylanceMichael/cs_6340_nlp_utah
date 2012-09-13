@@ -2,9 +2,9 @@ require './rule.rb'
 class Rtnm
 	attr_accessor :machinename, :init, :final, :rules
 
-	def as(sm, dict, index)
+	def as(sm, dict, index, rtnm)
 		#start at beginning
-		puts "processing #{@machinename} at #{sm.windex index}"
+		#puts "processing #{@machinename} at #{sm.windex index}"
 		#get all start states for current machine
 		rulesToTry = []
 		@rules.select{|t| t.start == @init}.each do |r|
@@ -16,7 +16,6 @@ class Rtnm
 
 		success = []
 		#puts "found #{rulesToTry.length} rules to try"
-
 		while rulesToTry.length > 0
 			cr = rulesToTry.delete_at 0
 			word = sm.windex cr.index
@@ -24,25 +23,20 @@ class Rtnm
 				next
 			end
 
-			result = cr.rule.ar sm, dict, cr.index
+			result = cr.rule.ar sm, dict, cr.index, rtnm
 			if result.class == TrueClass
 				#puts "PROCESSED #{cr.rule.start} - #{cr.rule.arcname} (#{sm.windex cr.index}) - #{cr.rule.end} was success"
 				#puts "                   "
-
 				newCr = RuleTuple.new
 				newCr.rule = cr.rule
 				newCr.index = cr.index
 				newCr.prev = cr.prev
 				if final.any? {|t| t == cr.rule.end}
-					#puts "found some end rules! #{cr.rule.start} - #{cr.rule.end} #{cr.index}"
-					tr = RuleTuple.new
-					tr.rule = newCr.rule
-					tr.index = newCr.index
-					tr.prev = newCr.prev
+					tr = newCr.copy
 					#puts "-------------------#{newCr.index}-----------pushing " 
 					#tr.history sm
 					#puts "             "
-					success.push tr.copy
+					success.push tr
 				else
 					#puts "             "
 					#puts "printing CR-History"
@@ -62,18 +56,13 @@ class Rtnm
 			    #puts "PROCESSED #{cr.rule.start} - #{cr.rule.arcname} (#{sm.windex cr.index}) - #{cr.rule.end} was #{result.length > 0 ? 'success' : 'failure'} with #{result.length}"
   				#puts "                   "
   				result.each do |nrnh|
-					  newCr = RuleTuple.new
-  					newCr.rule = cr.rule
-  					newCr.index = cr.index
-  					newCr.prev = cr.prev
-  					nrnh.root.prev = newCr
-
+  				  nrc = nrnh.copy
+					  newCr = cr.copy
+  					nrc.root.prev = newCr
+           
   					if final.any? {|t| t == cr.rule.end}
   					  #puts "found some end rules! #{cr.rule.start} - #{cr.rule.end} #{cr.index}"
-  					  tr = RuleTuple.new
-  						tr.rule = nrnh.rule
-  						tr.index = nrnh.index
-  						tr.prev = nrnh.prev
+  					  tr = nrc.copy
   						#puts "-------------------#{nrnh.index}-----------pushing " 
   						#tr.history sm
   						#puts "             "
@@ -81,7 +70,7 @@ class Rtnm
   					else
   						#puts "             "
   						#puts "printing CR-History MULTI"
-  						#rnh.history sm
+  						#nrc.history sm
   						#puts "             "
   					end
 
@@ -89,9 +78,10 @@ class Rtnm
   						tr = RuleTuple.new
   						tr.rule = rule
   						tr.index = nrnh.index + 1
-  						tr.prev = nrnh
+  						tr.prev = nrc
   						rulesToTry.push tr
   					end
+  					
   				end
   			else
   				#puts "THROWN AWAY #{cr.rule.start} - #{cr.rule.arcname} (#{sm.windex cr.index}) - #{cr.rule.end} was #{result.length > 0 ? 'success' : 'failure'} with #{result.length}"
@@ -99,12 +89,12 @@ class Rtnm
   			end
   		end
   		
-  		puts "exiting #{machinename} with #{success.length}"
+  		#puts "exiting #{machinename} with #{success.length}"
 
   		#success.each do |t| 
-  			#puts "---------------------------------------------"
-  			#t.history sm
-  			#puts "---------------------------------------------"
+  		#	puts "---------------------------------------------"
+  		#	t.history sm
+  		#	puts "---------------------------------------------"
   		#end
 
   		success

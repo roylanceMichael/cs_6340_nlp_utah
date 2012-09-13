@@ -9,18 +9,39 @@ class RuleTuple
 		end
 	end
 	
+	def to_ps(sm)
+    if @rule != nil && @rule.arctype == 'machine'
+      "#{@rule.start} - #{@rule.arcname} -> #{@rule.end}"
+    else
+      "#{@rule.start} - #{@rule.arcname} (#{sm.windex @index}) -> #{@rule.end}"
+    end
+  end
+	
 	def printself(sm)
-		puts "#{rule.start} - #{rule.arcname} - #{rule.end} - #{sm.windex index} - #{index}"
+		puts self.to_ps sm
 	end
 	
 	def history(sm)
 		printself sm
 		tempPrev = @prev
 		while tempPrev != nil
-			tempPrev.printself(sm)
+			tempPrev.printself sm
 			tempPrev = tempPrev.prev
 		end
 	end
+	
+	def prettyprint(sm)
+	  puts "PROCESSING SENTENCE: #{sm.sentence}"
+    stack = []
+    stack.push self
+    tempPrev = @prev
+    while tempPrev != nil
+      stack.push tempPrev
+      tempPrev = tempPrev.prev
+    end
+    stack = stack.reverse
+    stack.each{|t| t.printself sm}
+  end
 	
 	def copy
 		tr = RuleTuple.new

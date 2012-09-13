@@ -20,7 +20,7 @@ class Tests
 		sm = Sm.new
 		sm.sentence = sentence
 		result.each do |tr|
-			tr.history sm
+			tr.prettyprint sm
 			puts "           "
 		end
 		true
@@ -42,7 +42,7 @@ class Tests
 		sm = Sm.new
 		sm.sentence = sentence
 		result.each do |tr|
-			tr.history sm
+			tr.prettyprint sm
 			puts "           "
 		end
 		true
@@ -64,7 +64,7 @@ class Tests
 		sm = Sm.new
 		sm.sentence = sentence
 		result.each do |tr|
-			tr.history sm
+			tr.prettyprint sm
 			puts "           "
 		end
 		true
@@ -86,7 +86,7 @@ class Tests
 		sm = Sm.new
 		sm.sentence = sentence
 		result.each do |tr|
-			tr.history sm
+			tr.prettyprint sm
 			puts "           "
 		end
 		true
@@ -108,7 +108,7 @@ class Tests
 		sm = Sm.new
 		sm.sentence = sentence
 		result.each do |tr|
-			tr.history sm
+			tr.prettyprint sm
 			puts "           "
 		end
 		true
@@ -130,7 +130,7 @@ class Tests
 		sm = Sm.new
 		sm.sentence = sentence
 		result.each do |tr|
-			tr.history sm
+			tr.prettyprint sm
 			puts "           "
 		end
 		true

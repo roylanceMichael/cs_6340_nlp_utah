@@ -18,7 +18,7 @@ def vs(sentence, dict, rtnm)
 	sm = Sm.new
 	sm.sentence = sentence
 
-	result = rtnm.first.as sm, dict, 0
+	result = rtnm.first.as sm, dict, 0, rtnm
 	fr = result.select{|t| t.index == sm.words.length - 1}
 	fr
 end
@@ -41,12 +41,12 @@ def setRuleTypes(dict, rtnm)
 			if machineMatch != nil && machineMatch.length > 0
 				#found it!
 				r.arctype = "machine"
-				r.arcref = machineMatch.first
+				#r.arcref = machineMatch.first
 				next
 			elsif posSet.include? r.arcname
 				r.arctype = "word"
 				#not sure what to do here...
-				r.arcref = ""
+				#r.arcref = ""
 			end
 		end
 	end
