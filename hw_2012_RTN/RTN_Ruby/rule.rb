@@ -2,21 +2,17 @@ class Rule
 	attr_accessor :start, :arcname, :end, :arctype, :arcref, :parentmachine
 	
 	def ar(sm, dict, index, rtnm)
-  		#get current word
-  		#puts "#{@start} - #{@arcname} (#{sm.windex index}) -> #{@end} #{@arctype == 'machine' && @arcref != nil} (WHY IS THIS FAILING)"
   		if @arctype == "machine"
   		  foundMachine = rtnm.select{|t| t.machinename == @arcname }
   		  if foundMachine != nil && foundMachine.length > 0
   			  res = foundMachine.first.as sm, dict, index, rtnm
   			  if res.length > 0
-  				  #puts "#{@start} - #{@arcname} (#{sm.windex index}) -> #{@end}"
   				  return res
   			  end
 			  end
   		elsif @arctype == "word"
   			current = sm.windex index
   			if dict.any?{|t| t.word == current && t.pos == @arcname}
-  				#puts "#{@start} - #{@arcname} (#{sm.windex index}) -> #{@end}"
   				return true
   			end
   		end

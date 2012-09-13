@@ -34,7 +34,7 @@ class Sm
 	end
 	
 	def words
-		@sentence.split
+		@sentence.split.select{|t| (t =~ /[0-9A-Za-z]+/) != nil}
 	end
 	
 	def word

@@ -1,5 +1,5 @@
 class RuleTuple
-	attr_accessor :rule, :index, :prev
+	attr_accessor :rule, :index, :prev, :accept
 	
 	def same?(rt)
 		if rt != nil && @rule != nil && rt.rule.start == @rule.start && rt.rule.end == @rule.end && rt.rule.arcname == @rule.arcname && rt.index == @index
@@ -41,6 +41,10 @@ class RuleTuple
     end
     stack = stack.reverse
     stack.each{|t| t.printself sm}
+    
+    if @accept != nil
+      puts @accept
+    end
   end
 	
 	def copy
