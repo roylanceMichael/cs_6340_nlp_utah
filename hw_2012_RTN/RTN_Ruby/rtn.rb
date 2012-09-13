@@ -19,8 +19,8 @@ def vs(sentence, dict, rtnm)
 	sm.sentence = sentence
 
 	result = rtnm.first.as sm, dict, 0
-	puts "#########################################"
-	result
+	fr = result.select{|t| t.index == sm.words.length - 1}
+	fr
 end
 
 def setRuleTypes(dict, rtnm)
@@ -35,7 +35,6 @@ def setRuleTypes(dict, rtnm)
 	#select many
 	
 	rtnm.each do |m|
-	  puts "#{m.rules.length}"
 		m.rules.each do |r|
 			#check out the arc, first, is it a machine?
 			machineMatch = rtnm.select{|t| t.machinename == r.arcname}
