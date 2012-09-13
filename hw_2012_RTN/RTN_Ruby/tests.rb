@@ -1,4 +1,5 @@
 require './rtn.rb'
+require './lib.rb'
 class Tests
 	attr_accessor :dict, :rtnm
 	
@@ -7,12 +8,12 @@ class Tests
 		rtnm = Rtnm.factory 'lecRtn.txt'
 		dict = Dm.factory 'lecDict.txt'
 		
-		setRuleTypes(dict, rtnm)
+		Lib.setRuleTypes(dict, rtnm)
 		
 		sentence = "the metal can was dark blue"
 		
 		#act
-		result = vs sentence, dict, rtnm
+		result = Lib.vs sentence, dict, rtnm
 		
 		#assert
 		puts sentence
@@ -31,12 +32,12 @@ class Tests
 		rtnm = Rtnm.factory 'rtnspecs.txt'
 		dict = Dm.factory 'dict.txt'
 		
-		setRuleTypes(dict, rtnm)
+		Lib.setRuleTypes(dict, rtnm)
 		
 		sentence = "john"
 		
 		#act
-		result = vs sentence, dict, rtnm
+		result = Lib.vs sentence, dict, rtnm
 		
 		#assert
 		sm = Sm.new
@@ -53,12 +54,12 @@ class Tests
 		rtnm = Rtnm.factory 'rtnspecs.txt'
 		dict = Dm.factory 'dict.txt'
 		
-		setRuleTypes(dict, rtnm)
+		Lib.setRuleTypes(dict, rtnm)
 		
 		sentence = "john walks"
 		
 		#act
-		result = vs sentence, dict, rtnm
+		result = Lib.vs sentence, dict, rtnm
 		
 		#assert
 		sm = Sm.new
@@ -75,12 +76,12 @@ class Tests
 		rtnm = Rtnm.factory 'rtnspecs.txt'
 		dict = Dm.factory 'dict.txt'
 		
-		setRuleTypes(dict, rtnm)
+		Lib.setRuleTypes(dict, rtnm)
 		
 		sentence = "flies like smelly bananas"
 		
 		#act
-		result = vs sentence, dict, rtnm
+		result = Lib.vs sentence, dict, rtnm
 		
 		#assert
 		sm = Sm.new
@@ -97,12 +98,12 @@ class Tests
 		rtnm = Rtnm.factory 'rtnspecs.txt'
 		dict = Dm.factory 'dict.txt'
 		
-		setRuleTypes(dict, rtnm)
+		Lib.setRuleTypes(dict, rtnm)
 		
 		sentence = "fruit flies like trees"
 		
 		#act
-		result = vs sentence, dict, rtnm
+		result = Lib.vs sentence, dict, rtnm
 		
 		#assert
 		sm = Sm.new
@@ -119,12 +120,12 @@ class Tests
 		rtnm = Rtnm.factory 'rtnspecs.txt'
 		dict = Dm.factory 'dict.txt'
 		
-		setRuleTypes(dict, rtnm)
+		Lib.setRuleTypes(dict, rtnm)
 		
 		sentence = "fruit flies like the pears in the trees"
 		
 		#act
-		result = vs sentence, dict, rtnm
+		result = Lib.vs sentence, dict, rtnm
 		
 		#assert
 		sm = Sm.new
@@ -141,12 +142,12 @@ class Tests
 		rtnm = Rtnm.factory 'rtnspecs.txt'
 		dict = Dm.factory 'dict.txt'
 		
-		setRuleTypes(dict, rtnm)
+		Lib.setRuleTypes(dict, rtnm)
 		
 		sentence = "fruit flies like the pears in the trees ."
 		
 		#act
-		result = vs sentence, dict, rtnm
+		result = Lib.vs sentence, dict, rtnm
 		
 		#assert
 		sm = Sm.new

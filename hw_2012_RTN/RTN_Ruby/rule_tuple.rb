@@ -31,7 +31,6 @@ class RuleTuple
 	end
 	
 	def prettyprint(sm)
-	  puts "PROCESSING SENTENCE: #{sm.sentence}"
     stack = []
     stack.push self
     tempPrev = @prev
