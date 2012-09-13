@@ -135,4 +135,26 @@ class Tests
 		end
 		true
   end
+  
+  def fzt1
+    #arrange
+		rtnm = Rtnm.factory 'rtnspecs.txt'
+		dict = Dm.factory 'dict.txt'
+		
+		setRuleTypes(dict, rtnm)
+		
+		sentence = "fruit flies like the pears in the trees ."
+		
+		#act
+		result = vs sentence, dict, rtnm
+		
+		#assert
+		sm = Sm.new
+		sm.sentence = sentence
+		result.each do |tr|
+			tr.prettyprint sm
+			puts "           "
+		end
+		true
+  end
 end
