@@ -3,7 +3,6 @@ require './dm.rb'
 require './rtnm.rb'
 require './sm.rb'
 require './rule_tuple.rb'
-require 'set'
 
 #main level functions
 if ARGV != nil && ARGV.length > 2
