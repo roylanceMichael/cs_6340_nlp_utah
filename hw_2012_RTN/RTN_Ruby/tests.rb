@@ -20,13 +20,8 @@ class Tests
 		sm = Sm.new
 		sm.sentence = sentence
 		result.each do |tr|
-			current = tr
-			puts "---------------------------------"
-			while current != nil
-				puts current.printself sm
-				current = current.prev
-			end
-			puts "---------------------------------"
+			tr.history sm
+			puts "           "
 		end
 		true
 	end
