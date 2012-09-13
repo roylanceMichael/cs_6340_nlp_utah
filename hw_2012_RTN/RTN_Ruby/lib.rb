@@ -1,4 +1,3 @@
-require 'set'
 require './dm.rb'
 require './rtnm.rb'
 require './rule.rb'
@@ -21,8 +20,12 @@ class Lib
 		  return
 	  end
 	
-	  posSet = Set.new
-	  dict.each {|t| posSet.add? t.pos}
+	  posSet = []
+	  dict.each do |t|
+      if !(posSet.any?{|f| f == t.pos })
+        posSet.push t.pos
+      end
+    end
 	
 	  allRules = []
 	  #select many
