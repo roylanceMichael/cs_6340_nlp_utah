@@ -30,6 +30,26 @@ class RuleTuple
 		end
 	end
 	
+	def prettyprinttos(sm)
+    returnS = ""
+    stack = []
+    stack.push self
+    tempPrev = @prev
+    while tempPrev != nil
+      stack.push tempPrev
+      tempPrev = tempPrev.prev
+    end
+    stack = stack.reverse
+    stack.each do |t| 
+      returnS = returnS + t.to_ps(sm) + "\n"
+    end
+    
+    if @accept != nil
+      returnS = returnS + @accept
+    end
+    returnS
+  end
+	
 	def prettyprint(sm)
     stack = []
     stack.push self

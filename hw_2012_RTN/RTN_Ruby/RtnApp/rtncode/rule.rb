@@ -12,7 +12,7 @@ class Rule
 			  end
   		elsif @arctype == "word"
   			current = sm.windex index
-  			if current != nil && dict.any?{|t| t.word.downcase == current.downcase && t.pos.downcase == @arcname.downcase}
+  			if current != nil && dict.any?{|t| t.word != nil && t.word.downcase == current.downcase && t.pos.downcase == @arcname.downcase}
   				return true
   			end
   		end
