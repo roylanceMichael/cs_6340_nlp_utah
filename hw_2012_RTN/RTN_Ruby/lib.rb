@@ -1,9 +1,9 @@
+require 'set'
 require './dm.rb'
 require './rtnm.rb'
 require './rule.rb'
 require './sm.rb'
 require './rule_tuple.rb'
-require 'set'
 
 class Lib  
   def self.vs(sentence, dict, rtnm)
