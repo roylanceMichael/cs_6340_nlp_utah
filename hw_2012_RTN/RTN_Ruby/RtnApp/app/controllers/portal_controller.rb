@@ -19,14 +19,16 @@ class PortalController < ApplicationController
     
     Lib.setRuleTypes dict, rtnm
     
-    returnSentence = "PROCESSING SENTENCE: #{sentence}\r"
+    returnSentence = "PROCESSING SENTENCE: #{sentence}\r\r"
     
     result = Lib.vs sentence, dict, rtnm
     sm = Sm.new
     sm.sentence = sentence
     result.each do |tr|
-			returnSentence = returnSentence + tr.prettyprinttos(sm)
+			returnSentence = "#{returnSentence}#{tr.prettyprinttos(sm)}\r\r"
 		end
+		
+		returnSentence = "#{returnSentence}Done! Found #{result.length} parse(s)."
     
     render :text => "#{returnSentence}"
   end

@@ -31,7 +31,7 @@ class RuleTuple
 	end
 	
 	def prettyprinttos(sm)
-    returnS = ""
+    returnS = "SUCCESSFUL PARSE\n"
     stack = []
     stack.push self
     tempPrev = @prev

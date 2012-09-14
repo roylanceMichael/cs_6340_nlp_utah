@@ -1,0 +1,91 @@
+trying to process the dictionary: dict.txt, rtnspec: rtnspecs.txt and test file: test.txt
+PROCESSING SENTENCE: john .
+Done! Found 0 parse(s).
+PROCESSING SENTENCE: john walks .
+S0 - NP -> S1
+NP0 - noun (john) -> NP2
+S1 - VP -> S2
+VP0 - verb (walks) -> VP1
+S2(ACCEPT)
+           
+Done! Found 1 parse(s).
+PROCESSING SENTENCE: flies like smelly bananas .
+S0 - NP -> S1
+NP0 - noun (flies) -> NP2
+S1 - VP -> S2
+VP0 - verb (like) -> VP1
+VP1 - NP -> VP3
+NP0 - adj (smelly) -> NP1
+NP1 - noun (bananas) -> NP2
+S2(ACCEPT)
+           
+Done! Found 1 parse(s).
+PROCESSING SENTENCE: fruit flies like trees .
+S0 - NP -> S1
+NP0 - noun (fruit) -> NP2
+S1 - VP -> S2
+VP0 - verb (flies) -> VP1
+VP1 - PP -> VP2
+PP0 - prep (like) -> PP1
+PP1 - NP -> PP2
+NP0 - noun (trees) -> NP2
+S2(ACCEPT)
+           
+S0 - NP -> S1
+NP0 - noun (fruit) -> NP2
+NP2 - noun (flies) -> NP2
+S1 - VP -> S2
+VP0 - verb (like) -> VP1
+VP1 - NP -> VP3
+NP0 - noun (trees) -> NP2
+S2(ACCEPT)
+           
+Done! Found 2 parse(s).
+PROCESSING SENTENCE: fruit flies like the pears in the trees .
+S0 - NP -> S1
+NP0 - noun (fruit) -> NP2
+S1 - VP -> S2
+VP0 - verb (flies) -> VP1
+VP1 - PP -> VP2
+PP0 - prep (like) -> PP1
+PP1 - NP -> PP2
+NP0 - art (the) -> NP1
+NP1 - noun (pears) -> NP2
+NP2 - PP -> NP3
+PP0 - prep (in) -> PP1
+PP1 - NP -> PP2
+NP0 - art (the) -> NP1
+NP1 - noun (trees) -> NP2
+S2(ACCEPT)
+           
+S0 - NP -> S1
+NP0 - noun (fruit) -> NP2
+NP2 - noun (flies) -> NP2
+S1 - VP -> S2
+VP0 - verb (like) -> VP1
+VP1 - NP -> VP3
+NP0 - art (the) -> NP1
+NP1 - noun (pears) -> NP2
+NP2 - PP -> NP3
+PP0 - prep (in) -> PP1
+PP1 - NP -> PP2
+NP0 - art (the) -> NP1
+NP1 - noun (trees) -> NP2
+S2(ACCEPT)
+           
+S0 - NP -> S1
+NP0 - noun (fruit) -> NP2
+NP2 - noun (flies) -> NP2
+S1 - VP -> S2
+VP0 - verb (like) -> VP1
+VP1 - NP -> VP3
+NP0 - art (the) -> NP1
+NP1 - noun (pears) -> NP2
+VP3 - PP -> VP4
+PP0 - prep (in) -> PP1
+PP1 - NP -> PP2
+NP0 - art (the) -> NP1
+NP1 - noun (trees) -> NP2
+S2(ACCEPT)
+           
+Done! Found 3 parse(s).

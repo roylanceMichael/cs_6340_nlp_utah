@@ -3,8 +3,13 @@ class Lib
 	  #expecting one head rtnm
 	  sm = Sm.new
 	  sm.sentence = sentence
-
-	  result = rtnm.first.as sm, dict, 0, rtnm
+	  
+	  sMachine = rtnm.select{|t| t.machinename == 'S'}
+    
+    if sMachine == nil || sMachine.length == 0
+      puts "couldn't find the S machine, which is a requirement"
+    end
+	  result = sMachine.first.as sm, dict, 0, rtnm
 	  fr = result.select{|t| t.index == sm.words.length - 1}
 	  fr
   end
