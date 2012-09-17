@@ -15,13 +15,16 @@ if ARGV != nil && ARGV.length > 2
   rawFile = File.new(ARGV[2])
   while line = rawFile.gets
     puts "PROCESSING SENTENCE: #{line}"
+    puts "           "
     result = Lib.vs line, dict, rtnm
     sm = Sm.new
     sm.sentence = line
 		result.each do |tr|
+		  puts "SUCCESSFUL PARSE"
 			tr.prettyprint sm
 			puts "           "
 		end
 		puts "Done! Found #{result.length} parse(s)."
+		puts "           "
   end
 end

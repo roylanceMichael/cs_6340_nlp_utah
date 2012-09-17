@@ -14,8 +14,15 @@ class PortalController < ApplicationController
     dictTxt = params[:dict]
     rtnmTxt = params[:rtnm]
     
+    if sentence == nil || sentence.length == 0 || dictTxt == nil || dictTxt.length == 0 || rtnmTxt == nil || rtnmTxt.length == 0
+      render :text => "Please input all the variables"
+      return
+    end
+    
     rtnm = Rtnm.flogic rtnmTxt
     dict = Dm.sfactory dictTxt
+    
+    
     
     Lib.setRuleTypes dict, rtnm
     

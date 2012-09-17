@@ -1,6 +1,10 @@
 class Lib  
   def self.vs(sentence, dict, rtnm)
 	  #expecting one head rtnm
+	  if sentence == nil || sentence.length == 0 || dict == nil || dict.length == 0 || rtnm == nil || rtnm.length == 0
+      puts "error processing information"
+    end
+	  
 	  sm = Sm.new
 	  sm.sentence = sentence
 	  
