@@ -1,0 +1,78 @@
+Laplace smoothing (aka Add-One Smoothing)
+
+store room selling inflatable rafts, deflate some of the bigger ones for the smaller ones to be added in (needed for 0 values)
+
+probability estimates are very poor when dealing with lower estimate stuff... higher ones overestimated a bit.. produces better
+
+First, we compute new frequency values for each term: 
+
+	new e(wx) = (c(wx) + 1)
+	
+	Let N = |V| sum (t)  c(wi) and V = vocabulary size (# of unique terms)
+	
+	cat dog parrot snake lizard monkey
+	100 70  25     5     0      0
+P(x).5 .35	.125   .025  0      0
+SMOOTH FREQUENCY COUNTS
+c' (100 + 1) * (200 / 206) = (98) - 71 * (200 / 206) = (69) - 25 - 1 - 1
+	
+	V = 6
+	N = 200
+
+V comes from training corpus
+N comes from training corpus too???
+
+bigrams and trigrams - many combinations found
+
+This about smoothing N-grams... smoothing is exactly the same (what subspace we're smoothing)
+
+Tag sequences 
+
+How do you get good data from the people? Train the people...
+
+Flies like a flower
+
+create one row for every possible part of speech tag
+
+special node phi (0)
+
+T rows
+W columns
+
+Flies = N => P(flies | N) * P(N | 0) => .076 * .0001
+Flies = V => P(flies | V) * P(V | 0) => .00725
+Flies = P => P(flies | P) * P(P | 0) => 0
+Flies = Art => P(flies | Art) * P(Art | 0) => 0
+
+Like = N => P(like | N)
+-- note - repeat this
+MAX[
+	P(N | N) * 7.6*10-6
+	P(N | V) * .00725
+	P(N | P) * 0
+	P(N | ART) * 0
+]
+
+Like = V
+Like = P
+Like = Art
+
+a = N
+a = V
+a = P
+a = Art
+
+flower = N
+flower = V
+flower = P
+flower = Art
+
+Initialization step = handle first column because it is special
+guts
+
+
+outside pets
+adj     noun
+prep    noun
+noun    {noun, verb}
+adv     {noun, verb}

@@ -11,3 +11,9 @@
  *= require_self
  *= require_tree .
 */
+
+	
+/* iPhone */
+@media only screen and (max-device-width: 480px){
+	
+}

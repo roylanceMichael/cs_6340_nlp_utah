@@ -2,6 +2,10 @@ class PortalController < ApplicationController
   def index
   end
   
+  def home
+  	@stuff = "WASSUP MY BABIES";
+  end
+  
   def execute
     load "#{Dir.pwd}/rtncode/rtnm.rb"
     load "#{Dir.pwd}/rtncode/dm.rb"
