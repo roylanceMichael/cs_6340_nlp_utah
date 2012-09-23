@@ -12,7 +12,10 @@ RtnApp::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  match 'portal/rtn' => 'portal#rtn', :via => :get
+  match 'portal/ngram' => 'portal#ngram', :via => :get
   match 'portal/execute' => 'portal#execute', :via => :post
+  match 'portal/executengram' => 'portal#executengram', :via => :post
   match 'portal/home' => 'portal#home', :via => :get
   # Sample resource route with options:
   #   resources :products do

@@ -1,14 +1,11 @@
-require './word.rb'
 class Sentence
   attr_accessor :words
   
   def initialize(content)
 		@words = []
-		splitWords = content.split /\s+/
+		splitWords = content.strip.split /\s+/
 		splitWords.each do |foundWord|
-	    word = Word.new
-	    word.rawWord = foundWord
-	    @words.push word
+	    @words.push foundWord.downcase
     end
   end
   
@@ -20,6 +17,19 @@ class Sentence
     str
   end
   
+  def generateunigrams
+    if @words.length == 0
+      return []
+    end
+    
+    unigrams = []
+    @words.each do |word|
+      unigrams.push word
+    end
+    
+    unigrams
+  end
+  
   def generatebigrams
     if @words.length == 0
       return []
@@ -29,9 +39,8 @@ class Sentence
     previousWord = nil
     
     @words.each do |word|
-      normalizedWord = word.rawWord.downcase
-      bigrams.push [previousWord, normalizedWord]
-      previousWord = normalizedWord
+      bigrams.push [previousWord, word]
+      previousWord = word
     end
     
     bigrams.push [previousWord, nil]
@@ -49,10 +58,9 @@ class Sentence
     previousWord = nil
     
     @words.each do |word|
-      normalizedWord = word.rawWord.downcase
-      trigrams.push [previouspreviousWord, previousWord, normalizedWord]
+      trigrams.push [previouspreviousWord, previousWord, word]
       previouspreviousWord = previousWord
-      previousWord = normalizedWord
+      previousWord = word
     end
     
     trigrams.push [previouspreviousWord, previousWord, nil]
@@ -68,7 +76,7 @@ class Sentence
   def self.factory(content)
     prop = /\n/
     sentences = []
-    foundMatches = content.split prop
+    foundMatches = content.strip.split prop
     foundMatches.each do |match|
       sentences.push Sentence.new match
     end

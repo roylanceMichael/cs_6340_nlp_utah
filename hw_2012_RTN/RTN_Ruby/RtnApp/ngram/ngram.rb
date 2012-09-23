@@ -26,15 +26,14 @@ class Ngram
       return
     end
     sentence.words.each do |word|
-      normalizedWord = word.rawWord.downcase
-      if normalizedWord == ""
+      if word == ""
         next
       end
       
-      if @unigram.has_key? normalizedWord
-        @unigram[normalizedWord] = @unigram[normalizedWord] + 1
+      if @unigram.has_key? word
+        @unigram[word] = @unigram[word] + 1
       else
-        @unigram[normalizedWord] = 1
+        @unigram[word] = 1
       end
     end
   end
@@ -71,40 +70,121 @@ class Ngram
     end
   end
   
-  def printuni
-    @unigram.each do |k, v|
-      puts "#{k} - #{v}"
+  def prob(s)
+    sentence = Sentence.new s
+    
+    unigrams = sentence.generateunigrams
+    
+    uniprob = calculateprob unigrams, unilength, @unigram
+    returnString = "Unigrams: logprob(S) = #{uniprob}"
+    
+    bigrams = sentence.generatebigrams
+    biprob = calculatebiprob bigrams, @bigram
+    returnString = "#{returnString}\nBigrams: logprob(S) = #{biprob}"
+    
+    trigrams = sentence.generatetrigrams
+    triprob = calculatetriprob trigrams, @trigram
+    returnString = "#{returnString}\nTrigrams: logprob(S) = #{triprob}"
+    
+    bismoothed = smoothedbiprob bigrams, @bigram
+    returnString = "#{returnString}\nSmoothed Bigrams: logprob(S) = #{bismoothed}"
+    
+    trismoothed = smoothedtriprob trigrams, @trigram
+    returnString = "#{returnString}\nSmoothed Trigrams: logprob(S) = #{trismoothed}"
+    
+    returnString
+  end
+  
+  def smoothedbiprob(grams, hash)
+    prob = 1.to_f
+    uniq = unigram.length
+    #puts unigram.length
+    grams.each do |gram|
+      length = uniq
+      hash.select {|k, v| k[0] == gram[0]}.each{|k, v| length = length + v}
+      freq = 1
+      hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| freq = freq + v}
+      #puts "#{gram} -> freq: #{freq} length: #{length}"
+      prob = prob * (freq.to_f / length.to_f)
     end
+    #puts "prob: #{prob}"
+    (Math.log2 prob).round(4)
+  end
+  
+  def smoothedtriprob(grams, hash)
+    prob = 1.to_f
+    uniq = unigram.length
+    grams.each do |gram|
+      length = uniq
+      hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| length = length + v}
+      freq = 1
+      hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1] && k[2] == gram[2]}.each{|k, v| freq = freq + v}
+      #puts "#{gram} -> freq: #{freq} length: #{length}"
+      prob = prob * (freq.to_f / length.to_f)
+    end
+    #puts "prob: #{prob}"
+    (Math.log2 prob).round(4)
+  end
+  
+  def calculatetriprob(grams, hash)
+    prob = 1.to_f
+    grams.each do |gram|
+      length = 0
+      hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| length = length + v}
+      freq = 0
+      hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1] && k[2] == gram[2]}.each{|k, v| freq = freq + v}
+      #puts "#{gram} -> freq: #{freq} length: #{length}"
+      if length != 0 && freq != 0
+        prob = prob * (freq.to_f / length.to_f)
+      else
+        prob = "undefined"
+        break
+      end
+    end
+    #puts "prob: #{prob}"
+    prob = prob == 'undefined' ? prob : (Math.log2 prob).round(4)
+    prob
+  end
+  
+  def calculatebiprob(grams, hash)
+    prob = 1.to_f
+    grams.each do |gram|
+      length = 0
+      hash.select {|k, v| k[0] == gram[0]}.each{|k, v| length = length + v}
+      freq = 0
+      hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| freq = freq + v}
+      #puts "#{gram} -> freq: #{freq} length: #{length}"
+      if length != 0 && freq != 0
+        prob = prob * (freq.to_f / length.to_f)
+      else
+        prob = "undefined"
+        break
+      end
+    end
+    #puts "prob: #{prob}"
+    prob = prob == 'undefined' ? prob : (Math.log2 prob).round(4)
+    prob
+  end
+  
+  def calculateprob(grams, length, hash)
+    prob = 1.to_f
+    grams.each do |gram|
+      if hash.has_key? gram
+        #puts "#{gram} : #{hash[gram].to_f / length.to_f}"
+        prob = prob * (hash[gram].to_f / length.to_f)
+      else
+        prob = "undefined"
+        break
+      end
+    end
+    #puts "prob: #{prob}"
+    prob = prob == 'undefined' ? prob : (Math.log2 prob).round(4)
+    prob
   end
   
   def unilength
     totalCount = 0
     @unigram.each {|k, v| totalCount = totalCount + v }
     totalCount
-  end
-  
-  def bilength
-    totalCount = 0
-    @bigram.each {|k, v| totalCount = totalCount + v }
-    totalCount
-  end
-  
-  def trilength
-    totalCount = 0
-    @trigram.each {|k, v| totalCount = totalCount + v }
-    totalCount
-  end
-  
-  def puni(word)
-    normalizedWord = word.downcase
-    if !@unigram.has_key? normalizedWord
-      return 0
-    end
-
-    puts "totalCount is #{unilength}"
-    puts "wordFreq is #{@unigram[normalizedWord]}"
-    
-    wordFreq = @unigram[normalizedWord]
-    (Math.log2 wordFreq.to_f / unilength.to_f).round(4)
   end
 end

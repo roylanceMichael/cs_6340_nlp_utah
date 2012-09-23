@@ -3,7 +3,24 @@ class PortalController < ApplicationController
   end
   
   def home
-  	@stuff = "WASSUP MY BABIES";
+  end
+  
+  def executengram
+    load "#{Dir.pwd}/ngram/sentence.rb"
+    load "#{Dir.pwd}/ngram/ngram.rb"
+    
+    sentence = params[:sentence]
+    training = params[:training]
+    
+    if sentence == nil || training == nil
+      render :text => "Please input all the variables"
+      return
+    end
+    
+    trainingSentences = Sentence.factory training
+    ngram = Ngram.new trainingSentences
+    
+    render :text => (ngram.prob sentence)
   end
   
   def execute
