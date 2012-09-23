@@ -1,0 +1,48 @@
+S =  Wolf 
+
+Unigrams: logprob(S) = -10.6569
+Bigrams: logprob(S) = undefined
+Trigrams: logprob(S) = undefined
+Smoothed Bigrams: logprob(S) = -11.6799
+Smoothed Trigrams: logprob(S) = -11.6799
+
+S =  Widespread panic 
+
+Unigrams: logprob(S) = -26.9286
+Bigrams: logprob(S) = undefined
+Trigrams: logprob(S) = undefined
+Smoothed Bigrams: logprob(S) = -22.1067
+Smoothed Trigrams: logprob(S) = -23.1062
+
+S =  I don't trust horses .  
+
+Unigrams: logprob(S) = -42.7229
+Bigrams: logprob(S) = -15.1491
+Trigrams: logprob(S) = -9.4097
+Smoothed Bigrams: logprob(S) = -45.0726
+Smoothed Trigrams: logprob(S) = -45.9218
+
+S =  I swear I am not making this up .  
+
+Unigrams: logprob(S) = -74.1429
+Bigrams: logprob(S) = -28.6793
+Trigrams: logprob(S) = -13.2170
+Smoothed Bigrams: logprob(S) = -80.6216
+Smoothed Trigrams: logprob(S) = -83.6032
+
+S =  Never forget your froggy . 
+
+Unigrams: logprob(S) = -51.1322
+Bigrams: logprob(S) = undefined
+Trigrams: logprob(S) = undefined
+Smoothed Bigrams: logprob(S) = -56.3991
+Smoothed Trigrams: logprob(S) = -56.3855
+
+S =  Little did I know that a treacherous lizard addressed 300,000 scientists . 
+
+Unigrams: logprob(S) = -119.3167
+Bigrams: logprob(S) = undefined
+Trigrams: logprob(S) = undefined
+Smoothed Bigrams: logprob(S) = -133.7532
+Smoothed Trigrams: logprob(S) = -137.3720
+
