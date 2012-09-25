@@ -95,6 +95,78 @@ class Ngram
     returnString
   end
   
+  def languagegen(s)
+    prop = /\s+/
+    words = []
+    foundMatches = s.strip.split prop
+    foundMatches.each do |match|
+      words.push match
+    end
+    
+    #go through each word now...
+    sentences = []
+    words.each do |word|
+      sentences.push wordalg(word, 0)
+    end
+    
+    sentences
+  end
+  
+  def wordalg(word, length)
+    if word == nil
+      return "."
+    end
+    
+    if word == "." || word == "!" || word == "?"
+      return "#{word}"
+    end
+    
+    if length > 39
+      return "#{word} ."
+    end
+    
+    normalized = word.downcase
+    begins = Hash.new
+    freq = 0
+    @bigram.each do |k, v|
+      if k[0] == normalized
+        begins[k] = v
+        freq = freq + v
+      end
+    end
+    
+    if begins.length == 0
+      return "#{word} ."
+    end
+    
+    map = 0
+    #go through and map to new probability
+    begins.each do |k, v|
+      map = map + v.to_f / freq.to_f
+      begins[k] = map
+    end
+    
+    rand = Random.rand
+    #and now find the one that matches our random number
+    bigramToUse = nil
+    begins.each do |k, v|
+      if rand < v
+        bigramToUse = k
+        break
+      end
+    end
+    
+    if bigramToUse == nil
+      return "#{word} ."
+    end
+    
+    #we care about the second value
+    newWord = bigramToUse[1]
+    length = length + 1
+    #puts "#{rand} - #{newWord} - #{begins}"
+    return "#{word} #{wordalg(newWord, length)}"
+  end
+  
   def smoothedbiprob(grams, hash)
     prob = 1.to_f
     uniq = unigram.length

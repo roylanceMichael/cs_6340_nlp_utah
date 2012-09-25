@@ -5,6 +5,32 @@ class PortalController < ApplicationController
   def home
   end
   
+  def executelanguagegen
+    load "#{Dir.pwd}/ngram/sentence.rb"
+    load "#{Dir.pwd}/ngram/ngram.rb"
+    
+    training = params[:training]
+    seeds = params[:seeds]
+    
+    if seeds == nil || training == nil
+      render :text => "Please input all the variables"
+      return
+    end
+    
+    trainingSentences = Sentence.factory training
+    ngram = Ngram.new trainingSentences
+    
+    returnSentence = ""
+    results = ngram.languagegen seeds
+    
+    puts results
+    results.each do |result|
+      returnSentence = returnSentence + result + "\n"
+    end
+    
+    render :text => returnSentence
+  end
+  
   def executengram
     load "#{Dir.pwd}/ngram/sentence.rb"
     load "#{Dir.pwd}/ngram/ngram.rb"
@@ -18,7 +44,7 @@ class PortalController < ApplicationController
     end
     
     trainingSentences = Sentence.factory training
-    ngram = Ngram.new trainingSentences
+    ngram = Ngram.new trainingSentences 
     
     render :text => (ngram.prob sentence)
   end
@@ -42,8 +68,6 @@ class PortalController < ApplicationController
     
     rtnm = Rtnm.flogic rtnmTxt
     dict = Dm.sfactory dictTxt
-    
-    
     
     Lib.setRuleTypes dict, rtnm
     

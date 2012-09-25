@@ -91,6 +91,31 @@ END
 		</table>
 	</div>
 	
+	<div id="langenView" data-role="view" data-title="Language Generator">
+		<table style="width: 100%; text-align: left;">
+			<tr>
+				<th><h2>Language Generator</h2></th>
+				<td><input type="button" id="lango" data-role="button" value="Go!" />(I'm pulling the training data from NGram page)</td>
+			</tr>
+			<tr>
+				<th>Language Generator</th>
+				<td style="width: 95%; min-height: 150px;"><textarea id="lanresults" style="width: 95%; min-height: 150px;" readonly="readonly"></textarea></td>
+			</tr>
+			<tr>
+				<th>Seeds</th>
+				<td style="width: 95%; min-height: 150px;">
+					<textarea id="seeds" style="width: 95%; min-height: 150px;">
+I
+the
+according
+animals
+Zsa
+					</textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
 	<div id="ngramView" data-role="view" data-title="NGram">
 		<table style="width: 100%; text-align: left;">
 			<tr>
@@ -99,7 +124,17 @@ END
 			</tr>
 			<tr>
 				<th>Sentence</th>
-				<td><input type="text" id="ngramParse" value="I don't trust horses ." /></td>
+				<td>
+					<input type="text" id="ngramParse" value="I don't trust horses ." />
+					<select id="ngramSelect">
+						<option value="Wolf">Wolf</option>
+						<option value="Widespread panic">Widespread panic</option>
+						<option value="I don't trust horses ." selected="selected">I don't trust horses .</option>
+						<option value="I swear I am not making this up .">I swear I am not making this up .</option>
+						<option value="Never forget your froggy .">Never forget your froggy .</option>
+						<option value="Little did I know that a treacherous lizard addressed 300,000 scientists .">Little did I know that a treacherous lizard addressed 300,000 scientists .</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th>Results</th>
@@ -655,8 +690,9 @@ END
 		<!-- Footer -->
 		<div data-role="footer">
 			<div data-role="tabstrip">
-				<a href="#rtnView">Recursive Transitional Network</a>
 				<a href="#ngramView">NGram</a>
+				<a href="#langenView">Language Generator</a>
+				<a href="#rtnView">Recursive Transitional Network</a>
 			</div>
 		</div>
 	</div>
@@ -688,11 +724,30 @@ END
 				});
 			});
 			
+			$("#lango").click(function(event){
+				var sentence = $("#ngramParse").val();
+				var training = $("#ngramtraining").val();
+				var seeds = $("#seeds").val();
+				var dataObj = { "sentence": sentence, "training": training, "seeds": seeds };
+				$.ajax({
+					type: "POST",
+					url: "<%= portal_executelanguagegen_path %>",
+					data: dataObj,
+					success: function(newData){
+						$("#lanresults").text(newData);
+					},
+					error: function(a, b, c){
+						alert("There was an error, check server log");
+					}
+				});
+			});
+			
 			$("#ngramgo").click(function(event){
 				event.preventDefault();
 				var sentence = $("#ngramParse").val();
 				var training = $("#ngramtraining").val();
-				var dataObj = { "sentence": sentence, "training": training };
+				var seeds = $("#seeds").val();
+				var dataObj = { "sentence": sentence, "training": training, "seeds": seeds };
 				$.ajax({
 					type: "POST",
 					url: "<%= portal_executengram_path %>",
@@ -704,6 +759,10 @@ END
 						alert("There was an error, check server log");
 					}
 				});
+			});
+			
+			$("#ngramSelect").change(function(){
+				$("#ngramParse").val($(this).val());
 			});
 		});
 	</script>
