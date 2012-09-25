@@ -7,16 +7,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<div id="mainView" data-role="view" data-title="Mike Roylance NLP-2012">
-		Welcome to my NLP-2012 page! 
-		Click on the tab for specific assignments.
-	</div>
-	
 	<div id="rtnView" data-role="view" data-title="Recursive Transition Network">
 		<table style="width: 100%; text-align: left;">
 			<tr>
 				<th><h2>RTN</h2></th>
-				<td><a class="button" id="go" data-role="button" href="#">Go!</a></td>
+				<td><input type="button" id="go" data-role="button" value="Go!" /></td>
 			</tr>
 			<tr>
 				<th>Sentence</th>
@@ -100,7 +95,7 @@ END
 		<table style="width: 100%; text-align: left;">
 			<tr>
 				<th><h2>Ngram</h2></th>
-				<td><a class="button" id="ngramgo" data-role="button" href="#">Go!</a></td>
+				<td><input type="button" id="ngramgo" data-role="button" value="Go!" /></td>
 			</tr>
 			<tr>
 				<th>Sentence</th>
@@ -660,7 +655,6 @@ END
 		<!-- Footer -->
 		<div data-role="footer">
 			<div data-role="tabstrip">
-				<a href="#mainView">Main View</a>
 				<a href="#rtnView">Recursive Transitional Network</a>
 				<a href="#ngramView">NGram</a>
 			</div>
@@ -687,7 +681,6 @@ END
 					data: dataObj,
 					success: function(newData){
 						$("#results").text(newData);
-						alert("HI");
 					},
 					error: function(a, b, c){
 						alert("There was an error, check server log");
@@ -714,6 +707,5 @@ END
 			});
 		});
 	</script>
-	<!-- <%= yield %> -->
 </body>
 </html>
