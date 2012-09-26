@@ -168,38 +168,41 @@ class Ngram
   end
   
   def smoothedbiprob(grams, hash)
-    prob = 1.to_f
+    prob = 0.to_f
     uniq = unigram.length
     #puts unigram.length
     grams.each do |gram|
-      length = uniq
+      length = 0
       hash.select {|k, v| k[0] == gram[0]}.each{|k, v| length = length + v}
+      length = length + uniq
       freq = 1
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| freq = freq + v}
-      #puts "#{gram} -> freq: #{freq} length: #{length}"
-      prob = prob * (freq.to_f / length.to_f)
+      newProb = Math.log2(freq.to_f / length.to_f)
+      #puts "#{gram} -> freq: #{freq} length: #{length} -> #{newProb}"
+      prob = prob + newProb
     end
     #puts "prob: #{prob}"
-    (Math.log2 prob).round(4)
+    prob.round(4)
   end
   
   def smoothedtriprob(grams, hash)
-    prob = 1.to_f
+    prob = 0.to_f
     uniq = unigram.length
     grams.each do |gram|
       length = uniq
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| length = length + v}
       freq = 1
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1] && k[2] == gram[2]}.each{|k, v| freq = freq + v}
-      #puts "#{gram} -> freq: #{freq} length: #{length}"
-      prob = prob * (freq.to_f / length.to_f)
+      newProb = Math.log2(freq.to_f / length.to_f)
+      #puts "#{gram} -> freq: #{freq} length: #{length} => #{newProb}"
+      prob = prob + newProb
     end
     #puts "prob: #{prob}"
-    (Math.log2 prob).round(4)
+    prob.round(4)
   end
   
   def calculatetriprob(grams, hash)
-    prob = 1.to_f
+    prob = 0.to_f
     grams.each do |gram|
       length = 0
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| length = length + v}
@@ -207,50 +210,54 @@ class Ngram
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1] && k[2] == gram[2]}.each{|k, v| freq = freq + v}
       #puts "#{gram} -> freq: #{freq} length: #{length}"
       if length != 0 && freq != 0
-        prob = prob * (freq.to_f / length.to_f)
+        newProb = Math.log2(freq.to_f / length.to_f)
+        prob = prob + newProb
       else
         prob = "undefined"
         break
       end
     end
     #puts "prob: #{prob}"
-    prob = prob == 'undefined' ? prob : (Math.log2 prob).round(4)
+    prob = prob == 'undefined' ? prob : prob.round(4)
     prob
   end
   
   def calculatebiprob(grams, hash)
-    prob = 1.to_f
+    prob = 0.to_f
     grams.each do |gram|
       length = 0
       hash.select {|k, v| k[0] == gram[0]}.each{|k, v| length = length + v}
       freq = 0
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| freq = freq + v}
-      #puts "#{gram} -> freq: #{freq} length: #{length}"
+
       if length != 0 && freq != 0
-        prob = prob * (freq.to_f / length.to_f)
+        newProb = Math.log2(freq.to_f / length.to_f)
+        #puts "#{gram} -> freq: #{freq} length: #{length} => #{newProb}"
+        prob = prob + newProb
       else
         prob = "undefined"
         break
       end
     end
     #puts "prob: #{prob}"
-    prob = prob == 'undefined' ? prob : (Math.log2 prob).round(4)
+    prob = prob == 'undefined' ? prob : prob.round(4)
     prob
   end
   
   def calculateprob(grams, length, hash)
-    prob = 1.to_f
+    prob = 0.to_f
     grams.each do |gram|
       if hash.has_key? gram
         #puts "#{gram} : #{hash[gram].to_f / length.to_f}"
-        prob = prob * (hash[gram].to_f / length.to_f)
+        newProb = Math.log2(hash[gram].to_f / length.to_f)
+        prob = prob + newProb
       else
         prob = "undefined"
         break
       end
     end
     #puts "prob: #{prob}"
-    prob = prob == 'undefined' ? prob : (Math.log2 prob).round(4)
+    prob = prob == 'undefined' ? prob : prob.round(4)
     prob
   end
   

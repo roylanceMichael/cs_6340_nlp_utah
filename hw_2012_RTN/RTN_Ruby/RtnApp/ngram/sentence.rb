@@ -43,8 +43,6 @@ class Sentence
       previousWord = word
     end
     
-    bigrams.push [previousWord, nil]
-    
     bigrams
   end
   
@@ -62,13 +60,6 @@ class Sentence
       previouspreviousWord = previousWord
       previousWord = word
     end
-    
-    trigrams.push [previouspreviousWord, previousWord, nil]
-    
-    previouspreviousWord = previousWord
-    previousWord = nil
-    
-    trigrams.push [previouspreviousWord, previousWord, nil]
     
     trigrams
   end
