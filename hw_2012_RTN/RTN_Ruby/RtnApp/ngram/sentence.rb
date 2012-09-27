@@ -3,7 +3,7 @@ class Sentence
   
   def initialize(content)
 		@words = []
-		splitWords = content.lstrip.rstrip.split /\s+/
+		splitWords = content.to_s.lstrip.rstrip.split /\s+/
 		splitWords.each do |foundWord|
 	    @words.push foundWord.downcase
     end
@@ -67,7 +67,7 @@ class Sentence
   def self.factory(content)
     prop = /\n/
     sentences = []
-    foundMatches = content.lstrip.rstrip.split prop
+    foundMatches = content.to_s.lstrip.rstrip.split prop
     foundMatches.each do |match|
       sentences.push Sentence.new match
     end
