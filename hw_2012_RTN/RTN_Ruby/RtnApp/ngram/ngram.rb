@@ -117,12 +117,8 @@ class Ngram
       return "."
     end
     
-    if word == "." || word == "!" || word == "?"
+    if word == "." || word == "!" || word == "?" || length > 39
       return "#{word}"
-    end
-    
-    if length > 39
-      return "#{word} ."
     end
     
     normalized = word.downcase
