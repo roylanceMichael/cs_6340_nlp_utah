@@ -5,9 +5,13 @@ require './ngram.rb'
 if ARGV != nil && ARGV.length > 2
   puts "trying to process the training: #{ARGV[0]}, test: #{ARGV[1]} and seeds: #{ARGV[2]}"
   
-  sentences = Sentence.factory (File.new ARGV[0]).read
-  testSentences = (File.new ARGV[1]).read.strip.split(/\n/)
-  seeds = ((File.new ARGV[2]).read).split(/\s+/)
+  
+  sentenceString = (File.new ARGV[0]).read
+  sentences = Sentence.factory sentenceString
+  testSentencesString = (File.new ARGV[1]).read
+  testSentences = testSentencesString.lstrip.rstrip.split(/\n/)
+  seedsString = (File.new ARGV[2]).read
+  seeds = seedsString.split(/\s+/)
   
   ngram = Ngram.new sentences
   
