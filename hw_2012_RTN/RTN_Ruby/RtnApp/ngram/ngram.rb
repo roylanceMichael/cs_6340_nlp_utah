@@ -178,7 +178,7 @@ class Ngram
       prob = prob + newProb
     end
     #puts "prob: #{prob}"
-    prob.round(4)
+    "%.4f" % prob
   end
   
   def smoothedtriprob(grams, hash)
@@ -194,7 +194,7 @@ class Ngram
       prob = prob + newProb
     end
     #puts "prob: #{prob}"
-    prob.round(4)
+    "%.4f" % prob
   end
   
   def calculatetriprob(grams, hash)
@@ -214,7 +214,7 @@ class Ngram
       end
     end
     #puts "prob: #{prob}"
-    prob = prob == 'undefined' ? prob : prob.round(4)
+    prob = prob == 'undefined' ? prob : "%.4f" % prob
     prob
   end
   
@@ -236,7 +236,7 @@ class Ngram
       end
     end
     #puts "prob: #{prob}"
-    prob = prob == 'undefined' ? prob : prob.round(4)
+    prob = prob == 'undefined' ? prob : "%.4f" % prob
     prob
   end
   
@@ -253,7 +253,7 @@ class Ngram
       end
     end
     #puts "prob: #{prob}"
-    prob = prob == 'undefined' ? prob : prob.round(4)
+    prob = prob == 'undefined' ? prob : "%.4f" % prob
     prob
   end
   
