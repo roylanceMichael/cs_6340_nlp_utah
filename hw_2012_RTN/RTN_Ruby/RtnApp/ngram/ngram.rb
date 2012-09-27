@@ -142,7 +142,6 @@ class Ngram
       begins[k] = map
     end
     
-    rand = Random.rand
     #and now find the one that matches our random number
     bigramToUse = nil
     begins.each do |k, v|
