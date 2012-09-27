@@ -173,7 +173,7 @@ class Ngram
       length = length + uniq
       freq = 1
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| freq = freq + v}
-      newProb = Math.log2(freq.to_f / length.to_f)
+      newProb = Math.log10(freq.to_f / length.to_f) / Math.log10(2)
       #puts "#{gram} -> freq: #{freq} length: #{length} -> #{newProb}"
       prob = prob + newProb
     end
@@ -206,7 +206,7 @@ class Ngram
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1] && k[2] == gram[2]}.each{|k, v| freq = freq + v}
       #puts "#{gram} -> freq: #{freq} length: #{length}"
       if length != 0 && freq != 0
-        newProb = Math.log2(freq.to_f / length.to_f)
+        newProb = Math.log10(freq.to_f / length.to_f) / Math.log10(2)
         prob = prob + newProb
       else
         prob = "undefined"
@@ -227,7 +227,7 @@ class Ngram
       hash.select {|k, v| k[0] == gram[0] && k[1] == gram[1]}.each{|k, v| freq = freq + v}
 
       if length != 0 && freq != 0
-        newProb = Math.log2(freq.to_f / length.to_f)
+        newProb = Math.log10(freq.to_f / length.to_f) / Math.log10(2)
         #puts "#{gram} -> freq: #{freq} length: #{length} => #{newProb}"
         prob = prob + newProb
       else
@@ -245,7 +245,7 @@ class Ngram
     grams.each do |gram|
       if hash.has_key? gram
         #puts "#{gram} : #{hash[gram].to_f / length.to_f}"
-        newProb = Math.log2(hash[gram].to_f / length.to_f)
+        newProb = Math.log10(hash[gram].to_f / length.to_f) / Math.log10(2)
         prob = prob + newProb
       else
         prob = "undefined"
