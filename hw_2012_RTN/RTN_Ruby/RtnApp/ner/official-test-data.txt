@@ -1,0 +1,38 @@
+CONTEXT: division of
+NP: Gleason Inc
+
+CONTEXT: customers in
+NP: the Pacific region
+
+CONTEXT: famous writer
+NP: William Shakespeare
+
+CONTEXT: acquisition of
+NP: McDonnell Douglas Helicopter company
+
+CONTEXT: branch of
+NP: Lockheed Martin
+
+CONTEXT: leader of
+NP: Palestinian Liberation Organization
+
+CONTEXT: merger with
+NP: William Smith
+
+CONTEXT: veterinary assistant
+NP: Susan Stanley 
+
+CONTEXT: chairman
+NP: Walter Douglas
+
+CONTEXT: president
+NP: William Johnson
+
+CONTEXT: company president
+NP: Vera Wang
+
+CONTEXT: chairman of
+NP: Kansas Textiles Corporation
+
+CONTEXT: chairman of
+NP: Kansas Textiles Inc

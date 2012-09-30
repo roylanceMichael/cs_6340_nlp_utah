@@ -1,0 +1,6 @@
+SPELLING Contains(Ltd) -> ORGANIZATION
+SPELLING Contains(Corp) -> ORGANIZATION
+SPELLING Contains(John) -> PERSON
+SPELLING Contains(David) -> PERSON
+SPELLING Contains(Japan) -> LOCATION
+SPELLING Contains(City) -> LOCATION

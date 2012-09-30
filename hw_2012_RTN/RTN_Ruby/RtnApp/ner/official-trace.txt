@@ -1,0 +1,153 @@
+SEED DECISION LIST
+
+SPELLING Contains(Ltd) -> ORGANIZATION (prob=-1.000 ; freq=-1)
+SPELLING Contains(Corp) -> ORGANIZATION (prob=-1.000 ; freq=-1)
+SPELLING Contains(John) -> PERSON (prob=-1.000 ; freq=-1)
+SPELLING Contains(David) -> PERSON (prob=-1.000 ; freq=-1)
+SPELLING Contains(Japan) -> LOCATION (prob=-1.000 ; freq=-1)
+SPELLING Contains(City) -> LOCATION (prob=-1.000 ; freq=-1)
+
+ITERATION #1: NEW CONTEXT RULES
+
+CONTEXT Contains(region) -> LOCATION (prob=1.000 ; freq=11)
+CONTEXT Contains(capital) -> LOCATION (prob=1.000 ; freq=10)
+CONTEXT Contains(merger) -> ORGANIZATION (prob=1.000 ; freq=10)
+CONTEXT Contains(acquisition) -> ORGANIZATION (prob=1.000 ; freq=7)
+CONTEXT Contains(chairman) -> PERSON (prob=1.000 ; freq=7)
+CONTEXT Contains(president) -> PERSON (prob=0.833 ; freq=12)
+
+ITERATION #1: NEW SPELLING RULES
+
+SPELLING Contains(Yuri) -> PERSON (prob=1.000 ; freq=12)
+SPELLING Contains(Alexander) -> PERSON (prob=1.000 ; freq=8)
+SPELLING Contains(Tokyo) -> LOCATION (prob=1.000 ; freq=8)
+SPELLING Contains(Inc) -> ORGANIZATION (prob=1.000 ; freq=7)
+SPELLING Contains(Chechnya) -> LOCATION (prob=1.000 ; freq=6)
+SPELLING Contains(Morgan) -> ORGANIZATION (prob=1.000 ; freq=5)
+
+ITERATION #2: NEW CONTEXT RULES
+
+CONTEXT Contains(force) -> LOCATION (prob=1.000 ; freq=15)
+CONTEXT Contains(company) -> ORGANIZATION (prob=1.000 ; freq=14)
+CONTEXT Contains(subsidiary) -> ORGANIZATION (prob=1.000 ; freq=9)
+CONTEXT Contains(troops) -> LOCATION (prob=1.000 ; freq=8)
+CONTEXT Contains(head) -> PERSON (prob=0.800 ; freq=5)
+
+ITERATION #2: NEW SPELLING RULES
+
+SPELLING Contains(Vishnevsky) -> PERSON (prob=1.000 ; freq=8)
+SPELLING Contains(Rutskoi) -> PERSON (prob=1.000 ; freq=7)
+SPELLING Contains(Grozny) -> LOCATION (prob=1.000 ; freq=6)
+SPELLING Contains(Stanley) -> ORGANIZATION (prob=1.000 ; freq=6)
+SPELLING Contains(Group) -> ORGANIZATION (prob=1.000 ; freq=5)
+SPELLING Contains(Palestinian) -> LOCATION (prob=1.000 ; freq=5)
+
+ITERATION #3: NEW CONTEXT RULES
+
+CONTEXT Contains(bombing) -> LOCATION (prob=1.000 ; freq=20)
+CONTEXT Contains(northwest) -> LOCATION (prob=1.000 ; freq=16)
+CONTEXT Contains(stake) -> ORGANIZATION (prob=1.000 ; freq=6)
+CONTEXT Contains(aerospace) -> ORGANIZATION (prob=1.000 ; freq=5)
+
+ITERATION #3: NEW SPELLING RULES
+
+SPELLING Contains(Yeltsin) -> PERSON (prob=1.000 ; freq=7)
+SPELLING Contains(William) -> PERSON (prob=1.000 ; freq=6)
+SPELLING Contains(Attwoods) -> ORGANIZATION (prob=1.000 ; freq=5)
+SPELLING Contains(Lockheed) -> ORGANIZATION (prob=0.889 ; freq=9)
+SPELLING Contains(Kansas) -> LOCATION (prob=0.824 ; freq=17)
+
+FINAL DECISION LIST
+
+SPELLING Contains(Ltd) -> ORGANIZATION (prob=-1.000 ; freq=-1)
+SPELLING Contains(Corp) -> ORGANIZATION (prob=-1.000 ; freq=-1)
+SPELLING Contains(John) -> PERSON (prob=-1.000 ; freq=-1)
+SPELLING Contains(David) -> PERSON (prob=-1.000 ; freq=-1)
+SPELLING Contains(Japan) -> LOCATION (prob=-1.000 ; freq=-1)
+SPELLING Contains(City) -> LOCATION (prob=-1.000 ; freq=-1)
+SPELLING Contains(Yuri) -> PERSON (prob=1.000 ; freq=12)
+SPELLING Contains(Alexander) -> PERSON (prob=1.000 ; freq=8)
+SPELLING Contains(Tokyo) -> LOCATION (prob=1.000 ; freq=8)
+SPELLING Contains(Inc) -> ORGANIZATION (prob=1.000 ; freq=7)
+SPELLING Contains(Chechnya) -> LOCATION (prob=1.000 ; freq=6)
+SPELLING Contains(Morgan) -> ORGANIZATION (prob=1.000 ; freq=5)
+SPELLING Contains(Vishnevsky) -> PERSON (prob=1.000 ; freq=8)
+SPELLING Contains(Rutskoi) -> PERSON (prob=1.000 ; freq=7)
+SPELLING Contains(Grozny) -> LOCATION (prob=1.000 ; freq=6)
+SPELLING Contains(Stanley) -> ORGANIZATION (prob=1.000 ; freq=6)
+SPELLING Contains(Group) -> ORGANIZATION (prob=1.000 ; freq=5)
+SPELLING Contains(Palestinian) -> LOCATION (prob=1.000 ; freq=5)
+SPELLING Contains(Yeltsin) -> PERSON (prob=1.000 ; freq=7)
+SPELLING Contains(William) -> PERSON (prob=1.000 ; freq=6)
+SPELLING Contains(Attwoods) -> ORGANIZATION (prob=1.000 ; freq=5)
+SPELLING Contains(Lockheed) -> ORGANIZATION (prob=0.889 ; freq=9)
+SPELLING Contains(Kansas) -> LOCATION (prob=0.824 ; freq=17)
+CONTEXT Contains(region) -> LOCATION (prob=1.000 ; freq=11)
+CONTEXT Contains(capital) -> LOCATION (prob=1.000 ; freq=10)
+CONTEXT Contains(merger) -> ORGANIZATION (prob=1.000 ; freq=10)
+CONTEXT Contains(acquisition) -> ORGANIZATION (prob=1.000 ; freq=7)
+CONTEXT Contains(chairman) -> PERSON (prob=1.000 ; freq=7)
+CONTEXT Contains(president) -> PERSON (prob=0.833 ; freq=12)
+CONTEXT Contains(force) -> LOCATION (prob=1.000 ; freq=15)
+CONTEXT Contains(company) -> ORGANIZATION (prob=1.000 ; freq=14)
+CONTEXT Contains(subsidiary) -> ORGANIZATION (prob=1.000 ; freq=9)
+CONTEXT Contains(troops) -> LOCATION (prob=1.000 ; freq=8)
+CONTEXT Contains(head) -> PERSON (prob=0.800 ; freq=5)
+CONTEXT Contains(bombing) -> LOCATION (prob=1.000 ; freq=20)
+CONTEXT Contains(northwest) -> LOCATION (prob=1.000 ; freq=16)
+CONTEXT Contains(stake) -> ORGANIZATION (prob=1.000 ; freq=6)
+CONTEXT Contains(aerospace) -> ORGANIZATION (prob=1.000 ; freq=5)
+
+APPLYING FINAL DECISION LIST TO TEST INSTANCES
+
+CONTEXT: division of 
+NP: Gleason Inc 
+CLASS: ORGANIZATION
+
+CONTEXT: customers in 
+NP: the Pacific region 
+CLASS: NONE
+
+CONTEXT: famous writer 
+NP: William Shakespeare 
+CLASS: PERSON
+
+CONTEXT: acquisition of 
+NP: McDonnell Douglas Helicopter company 
+CLASS: ORGANIZATION
+
+CONTEXT: branch of 
+NP: Lockheed Martin 
+CLASS: ORGANIZATION
+
+CONTEXT: leader of 
+NP: Palestinian Liberation Organization 
+CLASS: LOCATION
+
+CONTEXT: merger with 
+NP: William Smith 
+CLASS: PERSON
+
+CONTEXT: veterinary assistant 
+NP: Susan Stanley 
+CLASS: ORGANIZATION
+
+CONTEXT: chairman 
+NP: Walter Douglas 
+CLASS: PERSON
+
+CONTEXT: president 
+NP: William Johnson 
+CLASS: PERSON
+
+CONTEXT: company president 
+NP: Vera Wang 
+CLASS: PERSON
+
+CONTEXT: chairman of 
+NP: Kansas Textiles Corporation 
+CLASS: LOCATION
+
+CONTEXT: chairman of 
+NP: Kansas Textiles Inc 
+CLASS: ORGANIZATION
