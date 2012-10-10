@@ -1,6 +1,14 @@
 class Rule
   attr_accessor :type, :contains, :tclass
   
+  def printSelf
+    "#{@type} Contains(#{@contains}) -> #{@tclass}"
+  end
+  
+  def putSelf
+    puts printSelf
+  end
+  
   def self.if(fileLocation)
     str = (File.new fileLocation).read
     result = Rule.factory str
