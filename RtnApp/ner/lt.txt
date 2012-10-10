@@ -1,0 +1,47 @@
+CONTEXT: retailer
+NP: Mary Smith
+
+CONTEXT: surgeon
+NP: Dr. John Smith
+
+CONTEXT: computer scientist
+NP: Dr. Mary Walton
+
+CONTEXT: computer retailer
+NP: Lee Smith
+
+CONTEXT: retailer
+NP: Lee Walton
+
+CONTEXT: uncola
+NP: Dr. Pepper
+
+CONTEXT: dress maker
+NP: Mary Smith
+
+CONTEXT: scientist
+NP: Lee Jones
+
+CONTEXT: computer company
+NP: IBM Co.
+
+CONTEXT: car maker
+NP: Toyota Corp.
+
+CONTEXT: car maker
+NP: Honda Motor Corp.
+
+CONTEXT: car company
+NP: Toyota Motor Co.
+
+CONTEXT: computer company
+NP: IBM Corp.
+
+CONTEXT: computer maker
+NP: IBM
+
+CONTEXT: car maker
+NP: Saturn Motor Corp.
+
+CONTEXT: auto maker
+NP: Toyota

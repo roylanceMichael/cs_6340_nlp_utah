@@ -1,5 +1,25 @@
 class Instance
-  attr_accessor :context, :np
+  attr_accessor :context, :np, :tclass
+  
+  def npSplit
+    if @np != nil
+      return @np.split(/\s+/)
+    end
+    return []
+  end
+  
+  def contextSplit
+    if @context != nil
+      return @context.split(/\s+/)
+    end
+    return []
+  end
+  
+  def self.if(fileLocation)
+    str = (File.new fileLocation).read
+    result = Instance.factory str
+    result
+  end
   
   def self.factory(content)
     splitContent = content.lstrip.rstrip.split /\n/
