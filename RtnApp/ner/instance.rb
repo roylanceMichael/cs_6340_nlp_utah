@@ -15,6 +15,10 @@ class Instance
     return []
   end
   
+  def printSelf
+    "np: #{@np}, context: #{@context}, tclass: #{@tclass}"
+  end
+  
   def self.if(fileLocation)
     str = (File.new fileLocation).read
     result = Instance.factory str

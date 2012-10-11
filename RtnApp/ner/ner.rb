@@ -12,13 +12,29 @@ end
 # come up with initial 
 
 class Ner
-  attr_accessor :rules, :trainingInst, :testInst, :initRules
+  attr_accessor :rules, :trainingInst, :testInst, :initRules, :freqLimit, :probLimit
   
   def initialize(initRules, trainingInst, testInst)
+    @probLimit = 0.8
+    @freqLimit = 5
     @rules = []
-    @initRules = initRules
+    
+    initRules.each do |initRule|
+      initRule.prob = -1.to_f
+      initRule.freq = -1
+    end
+    
+    @initRules = initRules.sort{|a, b| [b.prob, b.freq, a.contains] <=> [a.prob, a.freq, b.contains]}
     @trainingInst = trainingInst
     @testInst = testInst
+  end
+    
+  def printRules
+    returnLog = ""
+    @rules.each do |rule|
+      returnLog = "#{returnLog}\n#{rule.printSelf}"
+    end
+    returnLog
   end
   
   def resetRules
@@ -34,41 +50,63 @@ class Ner
   
   def execute
     reset
-    puts "SEED DECISION LIST"
-    @rules.each do |rule|
-      puts "#{rule.type} CONTAINS(#{rule.contains}) -> #{rule.tclass}"
-    end
+    returnLog = "SEED DECISION LIST"
+    returnLog = returnLog + "\n#{printRules}"
+    returnLog = returnLog + "\nITERATION #1 NEW CONTEXT RULES"
     
-    puts "ITERATION #1 NEW CONTEXT RULES"
-    
-    ctxResult = contextIteration
-    updateCtxTraining ctxResult
-    
-    puts "ITERATION #1 NEW NP RULES"
-    
-    npResult = npIteration
-    updateNpTraining npResult
-    
-    puts "ITERATION #2 NEW CONTEXT RULES"
+    puts returnLog
     
     ctxResult = contextIteration
-    updateCtxTraining ctxResult
+    first = updateCtxTraining ctxResult
+    puts first
+    returnLog = "#{returnLog}\n#{first}"
     
-    puts "ITERATION #2 NEW NP RULES"
-    
+    returnLog = "#{returnLog}\nITERATION #1 NEW NP RULES"
     npResult = npIteration
-    updateNpTraining npResult
+    second = updateNpTraining npResult
+    puts second
+    returnLog = "#{returnLog}\n#{second}"
     
-    puts "ITERATION #3 NEW CONTEXT RULES"
+    returnLog = "#{returnLog}\nITERATION #2 NEW CONTEXT RULES"
+    
+    puts returnLog
     
     ctxResult = contextIteration
-    updateCtxTraining ctxResult
+    third = updateCtxTraining ctxResult
+    returnLog = "#{returnLog}\n#{third}"
     
-    puts "ITERATION #3 NEW NP RULES"
+    puts third
+    
+    returnLog = "#{returnLog}\nITERATION #2 NEW NP RULES"
     
     npResult = npIteration
-    updateNpTraining npResult
+    fourth = updateNpTraining npResult
+    returnLog = "#{returnLog}\n#{fourth}"
     
+    puts fourth
+    
+    returnLog = "#{returnLog}\nITERATION #3 NEW CONTEXT RULES"
+    
+    ctxResult = contextIteration
+    fifth = updateCtxTraining ctxResult
+    returnLog = "#{returnLog}\n#{fifth}"
+    
+    puts fifth
+    
+    returnLog = "#{returnLog}\nITERATION #3 NEW NP RULES"
+    
+    puts returnLog
+    
+    npResult = npIteration
+    sixth = updateNpTraining npResult
+    returnLog = "#{returnLog}\n#{sixth}"
+    
+    puts sixth
+    
+    returnLog = "#{returnLog}\nFINAL DECISION LIST"
+    
+    seventh = printRules
+    returnLog = "#{returnLog}\n#{seventh}"
   end
   
   def reset
@@ -78,7 +116,7 @@ class Ner
     
     resetRules
     
-    setInitialSeeds @rules, @trainingInst
+    setInitialSeeds
   end
   
   def allTclasses
@@ -88,18 +126,57 @@ class Ner
         tclasses.push rule.tclass
       end
     end
-    tclasses
+    tclasses.sort{|a, b| a <=> b}
   end
   
   #handle NP Iteration
+  def contextIteration
+    ctxIterResults = []
+    
+    nilClassTrain = @trainingInst.select{|t| t.tclass != nil}
+    
+    contextWords.each do |word|
+      count = 0
+      ctxHash = { }
+      
+      nilClassTrain.each do |train|
+        
+        train.contextSplit.each do |ctx|
+          #puts "comparing #{ctx} vs #{word}..."
+          if ctx == word
+            #puts "#{train.printSelf}"
+            count = count + 1
+            
+            if ctxHash.has_key? train.tclass
+              ctxHash[train.tclass] = ctxHash[train.tclass] + 1
+            else
+              ctxHash[train.tclass] = 1
+            end
+            break
+          end
+        end
+      end
+      
+      if count >= @freqLimit
+        #puts "found #{count} of '#{word}'"
+        ctxHash["count"] = count
+        ctxHash["word"] = word
+        ctxIterResults.push ctxHash
+      end
+    end
+    ctxIterResults
+  end
+  
   def npIteration
     npIterResults = []
+    
+    nilClassTrain = @trainingInst.select{|t| t.tclass != nil}
     
     npWords.each do |word|
       count = 0
       npHash = { }
       
-      @trainingInst.select{|t| t.tclass != nil}.each do |train|
+      nilClassTrain.each do |train|
         train.npSplit.each do |np|
           #puts "comparing #{np} vs #{word}..."
           if np == word
@@ -115,7 +192,7 @@ class Ner
         end
       end
       
-      if count > 0
+      if count > @freqLimit
         npHash["count"] = count
         npHash["word"] = word
         npIterResults.push npHash
@@ -124,108 +201,149 @@ class Ner
     end
     npIterResults
   end
+  #end NP Iteration
+  
+  #handle CONTEXT Iteration
+  def handleIteration(iterNum)
+    returnString = "ITERATION # #{iterNum}: NEW CONTEXT RULES"
+    
+    result = contextIteration
+    sortedBestRules = updateCtxTraining result
+    
+    r = applyBestRules sortedBestRules
+    returnString = "#{returnString}\n#{r}\nITERATION # #{iterNum}: NEW NP RULES"
+    
+    result = npIteration
+    
+    sortedBestRules = updateNpTraining result
+    
+    r = applyBestRules sortedBestRules
+    returnString = "#{returnString}\n#{r}"
+  end
+  
+  def applyBestRules(bestRules)
+    returnString = ""
+    bestRules.each do |rule|
+      returnString = "#{returnString}\n#{rule.printSelf}"
+      applyRuleToNilInstances rule
+      @rules.push rule
+    end
+    returnString
+  end
   
   def updateNpTraining(npIterResults)
     countedIters = []
-    npIterResults.select{|t| t["count"] >= 2}.each do |npIter|
+    returnRules = []
+    returnLog = ""
+    
+    npIterResults.each do |npIter|
       count = npIter["count"]
       word = npIter["word"]
       
       allTclasses.each do |tclass|
-        
-        if npIter.has_key?(tclass) && ((npIter[tclass].to_f / count.to_f) >= 0.8)
+        prob = npIter[tclass].to_f / count.to_f
+        if npIter.has_key?(tclass) && prob >= @probLimit
           # greater than 80%?
           # update everyone with the same ctx
-          @trainingInst.select{|t| t.tclass == nil}.each do |train|
-            #puts "context -> #{train.context}... tclass -> #{tclass}"
-            if (train.npSplit.any?{|t| t == word})
-              puts "changed #{train.np} & #{train.context} -> #{tclass}"
-              train.tclass = tclass
-            end
-          end
           
           newRule = Rule.new
-          newRule.type = "CONTEXT"
+          newRule.type = "NP"
           newRule.contains = word
           newRule.tclass = tclass
+          newRule.prob = prob
+          newRule.freq = count
           
-          if @rules.any?{|t| t.type != newRule.type && newRule.contains != t.contains && t.tclass != newRule.tclass}
-            newRule.putSelf
-            @rules.push newRule
+          if !(@rules.any?{|t| t.type == newRule.type && newRule.contains == t.contains})
+            returnLog = "#{returnLog}\n#{newRule.printSelf}"
+            returnRules.push newRule
           end
         end
       end
     end
-  end
-  #end NP Iteration
-  
-  #handle CONTEXT Iteration
-  def contextIteration
-    ctxIterResults = []
     
-    contextWords.each do |word|
-      count = 0
-      ctxHash = { }
-      
-      @trainingInst.select{|t| t.tclass != nil}.each do |train|
-        train.contextSplit.each do |ctx|
-          #puts "comparing #{ctx} vs #{word}..."
-          if ctx == word
-            #puts "success!"
-            count = count + 1
-            
-            if ctxHash.has_key? train.tclass
-              ctxHash[train.tclass] = ctxHash[train.tclass] + 1
-            else
-              ctxHash[train.tclass] = 1
-            end
-          end
-        end
-      end
-      
-      if count > 0
-        ctxHash["count"] = count
-        ctxHash["word"] = word
-        ctxIterResults.push ctxHash
-      end
-      #puts "found #{count} of #{word}!"
+    puts "WHY OH WHY"
+    returnRules.each do |rule|
+      rule.putSelf
     end
-    ctxIterResults
+    
+    bestRules(returnRules)
   end
-  
+    
   def updateCtxTraining(ctxIterResults)
     countedIters = []
-    ctxIterResults.select{|t| t["count"] >= 2}.each do |ctxIter|
+    returnRules = []
+    returnLog = ""
+    #each iteration
+    ctxIterResults.each do |ctxIter|
       count = ctxIter["count"]
       word = ctxIter["word"]
       
       allTclasses.each do |tclass|
-        
-        if ctxIter.has_key?(tclass) && ((ctxIter[tclass].to_f / count.to_f) >= 0.8)
+        prob = ctxIter[tclass].to_f / count.to_f
+        if ctxIter.has_key?(tclass) && prob >= @probLimit
           # greater than 80%?
           # update everyone with the same ctx
-          @trainingInst.select{|t| t.tclass == nil}.each do |train|
-            #puts "context -> #{train.context}... tclass -> #{tclass}"
-            if (train.contextSplit.any?{|t| t == word})
-              #puts "changed #{train.np} & #{train.context} -> #{tclass}"
-              train.tclass = tclass
-            end
-          end
-          
           newRule = Rule.new
           newRule.type = "CONTEXT"
           newRule.contains = word
           newRule.tclass = tclass
+          newRule.prob = prob
+          newRule.freq = count
           
-          if @rules.any?{|t| t.type != newRule.type && newRule.contains != t.contains && t.tclass != newRule.tclass}
-            newRule.putSelf
-            @rules.push newRule
+          if !(@rules.any?{|t| t.type == newRule.type && newRule.contains == t.contains})
+            returnLog = "#{returnLog}\n#{newRule.printSelf}"
+            returnRules.push newRule
           end
         end
       end
     end
+    
+    bestRules(returnRules)
   end
   #end CONTEXT Iteration
+  
+  def sortDef(givenRules)
+    r = givenRules.sort do |a, b| 
+      if a.prob != b.prob
+        b.prob <=> a.prob
+      elsif a.freq != b.freq
+        b.freq <=> a.freq
+      else
+        a.contains <=> b.contains
+      end
+    end
+    r
+  end
+  
+  def sortRules(givenRules, tclass)
+    r = sortDef(givenRules.select{|t| t.tclass == tclass})
+    puts "WHATS THE STORY MORNING GLORY -> #{tclass}"
+    r.each do |rule|
+      #rule.putSelf
+    end
+    r
+  end
+  
+  def bestRules(givenRules)
+    best = []
+    allTclasses.each do |tclass|
+      count = 0
+      
+      r = sortRules(givenRules, tclass)
+      
+      r.each do |rule|
+
+        if count < 2
+          best.push rule
+          count = count + 1
+        else
+          break
+        end
+      
+      end
+    end
+    sortDef(best)
+  end
   
   def contextWords
     contextRules = []
@@ -251,31 +369,28 @@ class Ner
     npRules
   end
   
-  def setInitialSeeds(rules, trInstances)
-    rules.select{|t| t.type == "NP"}.each do |rule|
-      pregex = Regexp.new rule.contains
-
-      trInstances.each do |instance|
-        #puts "np: #{instance.np}"
+  def setInitialSeeds
+    @rules.select{|t| t.type == "NP"}.each do |rule|
+      rule.prob = -1
+      rule.freq = -1
+      #puts "Contains: #{rule.contains}"
+      applyRuleToNilInstances rule
+    end
+  end
+  
+  def applyRuleToNilInstances(rule)
+    @trainingInst.select{|t| t.tclass == nil}.each do |instance|
+      if rule.type == "NP"
         instance.npSplit.each do |word|
-          #puts "word: #{word} - regex: #{pregex}"
-          if (word =~ pregex) != nil
-            #puts "Success! Setting instance #{instance.tclass} to #{rule.tclass}"
+          if word == rule.contains
+            puts "Instance #{instance.printSelf} to #{rule.printSelf}"
             instance.tclass = rule.tclass
           end
         end
-      end
-    end
-
-    rules.select{|t| t.type == "CONTEXT"}.each do |rule|
-      pregex = Regexp.new rule.contains
-
-      trInstances.each do |instance|
-        #puts "context: #{instance.np}"
+      else
         instance.contextSplit.each do |word|
-          #puts "word: #{word} - regex: #{pregex}"
-          if (word =~ pregex) != nil
-            #puts "Success! Setting instance #{instance.tclass} to #{rule.tclass}"
+          if word == rule.contains
+            puts "Instance #{instance.printSelf} to #{rule.printSelf}"
             instance.tclass = rule.tclass
           end
         end
