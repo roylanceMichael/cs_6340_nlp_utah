@@ -17,8 +17,7 @@ class Rule
   
   def self.factory(content)
     sContent = content.split /\n/
-    regEx = /\s*(.+?)\s+Contains\((.+?)\)\s+->\s+(.+?)\s*/
-    
+    regEx = /\s*(.+?)\s+Contains\((.+?)\)\s+->\s+(.+)/
     rules = []
     
     sContent.each do |s|

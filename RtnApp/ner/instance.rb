@@ -32,10 +32,13 @@ class Instance
     tempInstance = Instance.new
     
     splitContent.each do |c|
+      
       if tempInstance.context == nil && c != nil && c.length > 8
-        tempInstance.context = c.slice(8, c.length - 8).lstrip.rstrip
+        temp = c.slice(8, c.length - 8).lstrip.rstrip
+        tempInstance.context = temp 
       elsif c != nil && c.length > 3
-        tempInstance.np = c.slice(3, c.length - 3).lstrip.rstrip
+        temp = c.slice(3, c.length - 3).lstrip.rstrip
+        tempInstance.np = temp
         instances.push tempInstance
         tempInstance = Instance.new
       end
