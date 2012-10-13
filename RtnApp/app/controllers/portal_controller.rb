@@ -6,7 +6,7 @@ class PortalController < ApplicationController
   end
   
   def executener
-    load "#{Dir.pwd}/ner/ner.rb"
+    load "#{Dir.pwd}/ner/nerc.rb"
     load "#{Dir.pwd}/ner/rule.rb"
     load "#{Dir.pwd}/ner/instance.rb"
     
