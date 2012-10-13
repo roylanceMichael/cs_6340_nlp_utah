@@ -2,7 +2,8 @@ class Rule
   attr_accessor :type, :contains, :tclass, :prob, :freq
   
   def printSelf
-    "#{@type} Contains(#{@contains}) -> #{@tclass} (prob=#{@prob} ; freq=#{@freq})"
+    temp = @type == "NP" ? "SPELLING" : "CONTEXT"
+    "#{temp} Contains(#{@contains}) -> #{@tclass} (prob=#{@prob} ; freq=#{@freq})"
   end
   
   def putSelf
