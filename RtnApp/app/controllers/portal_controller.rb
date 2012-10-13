@@ -5,6 +5,29 @@ class PortalController < ApplicationController
   def home
   end
   
+  def executener
+    load "#{Dir.pwd}/ner/ner.rb"
+    load "#{Dir.pwd}/ner/rule.rb"
+    load "#{Dir.pwd}/ner/instance.rb"
+    
+    seeds = params[:nerSeeds]
+    training = params[:nerTraining]
+    test = params[:nerTest]
+    
+    if seeds == nil || training == nil || test == nil
+      render :text => "Please input all variables"
+      return
+    end
+    
+    seedT = Rule.factory seeds
+    nerT = Instance.factory training
+    testT = Instance.factory test
+    
+    ner = Ner.new seedT, nerT, testT
+    
+    render :text => ner.execute
+  end
+  
   def executelanguagegen
     load "#{Dir.pwd}/ngram/sentence.rb"
     load "#{Dir.pwd}/ngram/ngram.rb"

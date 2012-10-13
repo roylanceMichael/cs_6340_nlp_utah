@@ -17,6 +17,7 @@ RtnApp::Application.routes.draw do
   match 'portal/execute' => 'portal#execute', :via => :post
   match 'portal/executengram' => 'portal#executengram', :via => :post
   match 'portal/executelanguagegen' => 'portal#executelanguagegen', :via => :post
+  match 'portal/executener' => 'portal#executener', :via => :post
   match 'portal/home' => 'portal#home', :via => :get
   # Sample resource route with options:
   #   resources :products do

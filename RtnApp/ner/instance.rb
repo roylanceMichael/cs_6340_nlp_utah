@@ -32,7 +32,7 @@ class Instance
     tempInstance = Instance.new
     
     splitContent.each do |c|
-      
+      c = c.gsub(/\s+/, " ")
       if tempInstance.context == nil && c != nil && c.length > 8
         temp = c.slice(8, c.length - 8).lstrip.rstrip
         tempInstance.context = temp 
